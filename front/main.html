@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PixelHub | The Curated Canvas</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#d0bcff",
+              "secondary-fixed-dim": "#c0c1ff",
+              "secondary-fixed": "#e1e0ff",
+              "error-container": "#ffdad6",
+              "surface-tint": "#6d3bd7",
+              "surface-container-low": "#f2f4f6",
+              "outline-variant": "#cbc3d7",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "surface": "#f7f9fb",
+              "secondary": "#4648d4",
+              "on-surface": "#191c1e",
+              "error": "#ba1a1a",
+              "on-error": "#ffffff",
+              "surface-dim": "#d8dadc",
+              "inverse-primary": "#d0bcff",
+              "inverse-on-surface": "#eff1f3",
+              "surface-bright": "#f7f9fb",
+              "surface-container-highest": "#e0e3e5",
+              "primary-fixed": "#e9ddff",
+              "on-tertiary": "#ffffff",
+              "on-tertiary-container": "#fffbff",
+              "outline": "#7b7486",
+              "secondary-container": "#6063ee",
+              "tertiary-fixed": "#ffdad4",
+              "on-background": "#191c1e",
+              "primary-container": "#8455ef",
+              "on-tertiary-fixed": "#400100",
+              "on-surface-variant": "#494454",
+              "on-secondary-fixed-variant": "#2f2ebe",
+              "on-primary-fixed": "#23005c",
+              "tertiary-fixed-dim": "#ffb4a7",
+              "tertiary-container": "#dc3220",
+              "surface-container-high": "#e6e8ea",
+              "on-primary-container": "#fffbff",
+              "background": "#f7f9fb",
+              "surface-container": "#eceef0",
+              "on-primary-fixed-variant": "#5516be",
+              "on-secondary-fixed": "#07006c",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#fffbff",
+              "inverse-surface": "#2d3133",
+              "tertiary": "#b71507",
+              "surface-variant": "#e0e3e5",
+              "primary": "#6b38d4",
+              "on-tertiary-fixed-variant": "#920600",
+              "surface-container-lowest": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pixel-step {
+            clip-path: polygon(0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px));
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center h-16 px-8 max-w-[1440px] mx-auto">
+<!-- Brand Logo -->
+<div class="text-2xl font-bold tracking-tighter text-violet-700 dark:text-violet-500">
+                PixelHub
+            </div>
+<!-- Navigation Links -->
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-violet-700 dark:text-violet-400 border-b-2 border-violet-600 font-bold text-sm font-medium tracking-tight" href="#">Gallery</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-violet-500 transition-colors text-sm font-medium tracking-tight" href="#">Store</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-violet-500 transition-colors text-sm font-medium tracking-tight" href="#">Editor</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-violet-500 transition-colors text-sm font-medium tracking-tight" href="#">Commission</a>
+</div>
+<!-- Search & Actions -->
+<div class="flex items-center space-x-6">
+<div class="relative hidden lg:block">
+<input class="bg-surface-container-high border-none rounded-full py-2 pl-10 pr-4 w-64 focus:ring-2 focus:ring-primary/20 text-sm" placeholder="Search curated art..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+</div>
+<div class="flex items-center space-x-4">
+<button class="text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 p-2 rounded-lg transition-all active:scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 p-2 rounded-lg transition-all active:scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-16 space-y-24">
+<!-- Trending Artworks Section -->
+<section class="max-w-[1440px] mx-auto px-8">
+<div class="flex justify-between items-end mb-8">
+<div>
+<span class="text-primary font-bold tracking-widest uppercase text-xs mb-2 block font-label">Curated Selection</span>
+<h2 class="text-4xl font-bold tracking-tight text-on-surface">Trending Artworks</h2>
+</div>
+<button class="text-primary font-semibold hover:underline underline-offset-4 flex items-center gap-2">
+                    Explore Trending <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Art Card 1 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-low overflow-hidden pixel-step mb-4 aspect-[4/5]">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Intricate isometric pixel art of a cyberpunk street corner with neon signs and flying delivery drones in soft purple lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIKpei83xOzw2z3fs45mkBTZTslK6CqgITn6UiSdAMyP2rnkgfvmDMah0v2uD6oA4j3C64uJG1Jme1rPey2xVnJBC3LVLxIN51zfkmU0lV3ny3kOVahT2LKqvuEvwoj0McbdwjrYhGyOIT2W7qF8ZsxKUH72vg8PaX2PFcHq0IYT5LClKblnWQ3jxY3mB4VIKRJi2WwQTI1fRbnvYCaYORCjtIKOxme5KOzerGUD13cF8fGT0yKYqJ_2lPzDMAJl0d_GnwVObbnxg"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold text-on-surface">Neon Nocturne</h3>
+<p class="text-sm text-on-surface-variant font-medium">by PixelVisions</p>
+</div>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+</div>
+<!-- Art Card 2 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-low overflow-hidden pixel-step mb-4 aspect-[4/5]">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Minimalist pixel art character in a snowy landscape with a glowing blue lantern and soft ambient white light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFvB7okL04m2TzB_32zypgxrICpG25MA_BkU4zV-cXiOfqOtXvqOAvZ_UtDY1uJ-0hjxpHKMLUoxF-Qo1qb0Mrr54d8xSoiyYJNS_kquVhv1HGK10CcjZ_EKA65uBQQuibB25iBHSNxitVWyhu3Oy7KcMsyq7EZDVjAceUBqZRmQun56lwU_QaRby9OK1tgf3ma2OAyjFiBxpacyOF2E5Z-loHCc_HGbib4Igex6R07oW-XIm3LNfxA1YrLcF5zJ3KlDPL5K3TiE8"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold text-on-surface">Silent Snow</h3>
+<p class="text-sm text-on-surface-variant font-medium">by GlitchArtisan</p>
+</div>
+<span class="material-symbols-outlined text-outline">favorite</span>
+</div>
+</div>
+<!-- Art Card 3 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-low overflow-hidden pixel-step mb-4 aspect-[4/5]">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Colorful pixel art of a floating island with a small cottage and pixelated clouds in a vibrant sunset sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOnXW9rV9n1m6HKyrp0ZHSV1MP86Y6Ly473On2TVOpyj1RRW5MZJ7J3zrq3ngwd0ftEut15Wt04KQDzAfFZp9gs1A7Y-kwVMwtpznK0y_qC6SiHinB-TwlXIDQMJO8oj5vczKV_UE9Zt7duqOWfIN-ry_OIJBqkqe4VjjrCGfAf1nwTpH5zJZTGW5MxYSbQ2pOa0Qbpy93tMuol8YUsmmjMoX1-zg61qmNfMHy6ilHhc5CzBj2CkFN18woRoJMS4zuAdbeWs9cPy8"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold text-on-surface">Aether Haven</h3>
+<p class="text-sm text-on-surface-variant font-medium">by CloudRunner</p>
+</div>
+<span class="material-symbols-outlined text-outline">favorite</span>
+</div>
+</div>
+<!-- Art Card 4 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-low overflow-hidden pixel-step mb-4 aspect-[4/5]">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Retro 8-bit style portrait of a futuristic robotic head with circuitry details and soft magenta glowing eyes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOLCUz68kfeNwGI6r3XYFA4nsNP5XvzmjNmRWYqz4WDZrUgfucj33bmaSwE-3kD8ImyLsrRns4_i7PtAi_D_0JcHqt5QGXDlk2sz0dKn-0eFGl_-zbPuqGP-qLCEc_dvDTA3Ul_Lo-n2A___Ggh6QqSdGSo9DD__b0UEBtveBpET9Th6d010mevVYGgei2sOa3rhT0upPlLf5kiuxrMM-aM4JaT9zMgxi0Vf79tEPrpBzeRuK6ql98o0wZqX5wW34PQ1mJK0Uce2I"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold text-on-surface">Cyber Core</h3>
+<p class="text-sm text-on-surface-variant font-medium">by SynthSpirit</p>
+</div>
+<span class="material-symbols-outlined text-outline">favorite</span>
+</div>
+</div>
+<!-- Art Card 5 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-low overflow-hidden pixel-step mb-4 aspect-[4/5]">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Abstract pixel art pattern featuring warm orange and deep violet geometric shapes in a layered paper style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqHsaZ75W81UcT-TlwSXP5tDACvZ3zvQEz4RRcnQuYtVZZf6ZzlliSI98BU-8M41HEyt5RkmrybzFf0mOUhv5CD1jbDtMMbtGDKKrSwLZoMlL_6DlOGgWUOXQOwGx7n-0P1KOGzAY0E8HoD8mwDY4uF8nyB01J-04n2Gmaf5U40QASGLDQClrn5qR087TjF0VclqgV0ww_6UL92Ed44SupQCNw_nIBsYXnVvP3hJbfwAu80uwzQfZBX_owoO6ajAP5y_qpypzOQCs"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold text-on-surface">Tonal Shift</h3>
+<p class="text-sm text-on-surface-variant font-medium">by ChromaKey</p>
+</div>
+<span class="material-symbols-outlined text-outline">favorite</span>
+</div>
+</div>
+<!-- Art Card 6 -->
+<div class="group cursor-pointer">
+<div class="bg-surface-container-low overflow-hidden pixel-step mb-4 aspect-[4/5]">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Detailed pixel art forest at dawn with shafts of light breaking through green canopy and small deer silhouette" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrf4b3IwgexYff1beVUDgXAcPcPWncOFYJpNRVZgm7Ud-jteb6e1xxjvp6aVUutrM5Kvxx2NJz4Vfp0fBSu8cfYNw7HOj-AZu5tRvsOePfP6vi4jmwgD5A_uvP7M1H3P4PwbbgelOrDVG3wDavlB9MfqRtUU69p0QxPNKryoiVZ_325fMUGDu3YwbkhaA7apNh4yZu-zgroY698T88wveWRMEbZj0L3A-Ha-tnXbFPwfHHWNuiuBhbGDpHbmMYCi2OhjCt0u7latQ"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold text-on-surface">Dawn Whisper</h3>
+<p class="text-sm text-on-surface-variant font-medium">by NaturePixel</p>
+</div>
+<span class="material-symbols-outlined text-outline">favorite</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Recommended for You Section (Horizontal Scroll) -->
+<section class="bg-surface-container-low py-16">
+<div class="max-w-[1440px] mx-auto px-8">
+<div class="flex items-center gap-4 mb-8">
+<h2 class="text-3xl font-bold tracking-tight text-on-surface">Recommended for You</h2>
+<div class="h-px flex-1 bg-outline-variant/30"></div>
+</div>
+<div class="flex overflow-x-auto pb-8 no-scrollbar snap-x gap-8">
+<!-- Recommended Card 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm snap-start group min-w-[360px]">
+<div class="h-48 overflow-hidden rounded-lg mb-4">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform" data-alt="Isometric pixel art of a cozy library with warm candlelight and shelves full of tiny books" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXP1yhsfe6hagVKvad55NWZBX3QIvp7yG9I7qGl8ZSEdS5y2QnvHPJPnFJEnLfsFCCCYKoQ0iYaK1BS84b169zv_VQjM8uplzdXjhPDynuulEyLbrk9ZC2oFDox9hLrWIMYvoFCSoSh-kdaHs1w8m3iyo3GFe7EwDjK6xRtqSGMAuhn8kBumBA-5tb7r-eW0QN1W7NJz5IHBlMXME5DrZcNuu8hp9nnSPkicT7-WbTgxTdq0r2orlJlasbH_9ha49DZp8ZiSxmFfU"/>
+</div>
+<h4 class="font-bold text-lg mb-1">Antique Archives</h4>
+<p class="text-sm text-on-surface-variant">Recommended based on your interest in Isometric Art</p>
+</div>
+<!-- Recommended Card 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm snap-start group min-w-[360px]">
+<div class="h-48 overflow-hidden rounded-lg mb-4">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform" data-alt="Vibrant pixel art of a space nebula with swirling violets and bright pixel stars" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQeh2H9XH2RfdppG1ydEUPhIKTCfuWsEbqY1FQiMKUUb5gflRHrSxYEeylLuZa_KwvuueHIvuATQe-NoPXIq4WKyrfXmwN5AuKihBfL-MVVG4oOCCo8pOeL-fjOiR4MNOdnuQjVswM7E99uQD4A2nfR4WhrbMbxtnoi_w6bWFhH3pFW5DxPKDjUIrgVvCpnUYhVZuosNcOnmiBJ-02D4AOzfg5y1ogkWLZ4gRUnUZBHiN93plDQi-AyiweDandgUaB2_uVGlQqI4U"/>
+</div>
+<h4 class="font-bold text-lg mb-1">Cosmic Drift</h4>
+<p class="text-sm text-on-surface-variant">Trending in Space categories you follow</p>
+</div>
+<!-- Recommended Card 3 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm snap-start group min-w-[360px]">
+<div class="h-48 overflow-hidden rounded-lg mb-4">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform" data-alt="Lo-fi aesthetic pixel art of a bedroom at night with a blue glowing computer screen and city lights outside" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjd1I37dDC4JN2lnx5lut-JSuE_EuG3dl5wvaWl5ecLrOe16NQn88CgFLIjEqOjUmN622bGu2s2sGKrPl6cgY9OfKo6eMi-Lzc9U18erUdGodFgaBlxZ01QPOopc9lS7_KzGwYc9iULt0idb6ySNDDrR8xXEnf6E59QIVcfsxQj64ftq-d2FgwJzEPgqBTKGj9Ju1cEvFDt5Pp1P3joaUXdEXJoVwNLOFmeU6dUCk76m3T4KrZ_M7qsDRby5GsrYnGS8RWroM-Zng"/>
+</div>
+<h4 class="font-bold text-lg mb-1">Midnight Session</h4>
+<p class="text-sm text-on-surface-variant">Similar to artists you recently viewed</p>
+</div>
+<!-- Recommended Card 4 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm snap-start group min-w-[360px]">
+<div class="h-48 overflow-hidden rounded-lg mb-4">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform" data-alt="Pixel art landscape of a futuristic desert with red sand and floating geometric monuments" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxT8IOaEx8NFYmY6jY_eKN-6HmKi3hfwXY9bFu6X261t34Tvz8GWrKsr2YYWebluZqj0rTM3DNiC3q2iujOdA926CHQjRMy2gRRebEYITBr8X0mblQ9f1ARniwdm4e63ThQwE7lVI6VB9q5jN2C6AjgPFcK9VcyPtuStpYRBtx67sEmTsZ2DR6JVyuwhVbxuKO4pBdmSgXApq9hngS0kE-KqQCnbs43HaKQ0zhwmWxGF9FTOzMAc6U11B6scA5rTGIhWr9qLdr1GI"/>
+</div>
+<h4 class="font-bold text-lg mb-1">Obsidian Dunes</h4>
+<p class="text-sm text-on-surface-variant">Highly rated in Surrealism this week</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Feed Section -->
+<section class="max-w-[1440px] mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Left: Recently Added -->
+<div class="lg:col-span-8 space-y-8">
+<div class="flex items-center justify-between">
+<h2 class="text-2xl font-bold text-on-surface">Recently Added</h2>
+<div class="flex gap-2">
+<button class="bg-surface-container-highest px-3 py-1 rounded-full text-xs font-bold uppercase tracking-tighter">All</button>
+<button class="text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-tighter hover:bg-surface-container">Characters</button>
+<button class="text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-tighter hover:bg-surface-container">Enviro</button>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<!-- Row 1 -->
+<div class="aspect-square bg-surface-container rounded-lg overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="Small pixel art icon of a glowing magical potion bottle with floating bubbles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb323fqLhhG80OAV8QtcR0rktkRVIYlInnIuZhpt8zAce7Qm-41b7bvtR45npjgS8JlTFK0FpsZfwZ7PJro2jILuUR-KIco6-CL_WHPSrAIIJels2jwzFRjEVw5KSAI4CQO1fyZY6g34hWt175acgRY03Kc8vXDEWDWUKApONHMiz6qtY55-a_zkvQda4H5Fj4b6-gm43YS7-soGem200YoKfy-rHMmFPt02WbvtONrqUufA3bw0waO6tfXubd9vdHP-UUU_ItYDU"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="text-white font-bold text-sm">View Work</span>
+</div>
+</div>
+<div class="aspect-square bg-surface-container rounded-lg overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="8-bit pixel art of a tiny adventurer knight standing on a green grass block" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2l8Qy5Dfd5GwRRniHe4qPgocWQ2qaA7BZzPBhtqVc1fKSgkbck8ZcF9KFhFLCO5pAtVdVLd3PNLsJe3KoJBjWX1EzMjTtRGgG-1cmlcgUTakNb606vHy7ICB68Y2TnQnf46eTjsuHFob2R9qsOvTHndvwQ11WFXQUGug2wDKeeH3vhuHy5zm3P8_FmIsd6bTJeysgts_lg4RwSo0sf63g752xkzYNLNQ-VXWn3oP8_Isw3SSGPMElwt_fpsCi2DKi0s-KtZBQZPU"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="text-white font-bold text-sm">View Work</span>
+</div>
+</div>
+<div class="aspect-square bg-surface-container rounded-lg overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="Pixel art city skyline at night with small twinkling stars and a yellow crescent moon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnEtigul0R0XYJ5VgPFUc5XywCRQ--m7KhPd4vW6LWl277xaVtp7p_zdWOc_Xr7LIGMYJNk2iL9EJyRjtadAmJ1zdcdmJOsz48A_IQPrIc8wWNf4gJ1cFyMJRNYEViIMl3HXGwc4mLnwmNbpb3eqByKlh7P7K6B8Dp6rBb_KXfoF8Jykd5Sc8WHgW1vsSYgHSzzWInC0ptl9c1OXsTBCYYjRx9hoOLm-mcrCnCe5HkcBQDop7Vy6bZApiecvwJryA91cUOQW2Y5bk"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="text-white font-bold text-sm">View Work</span>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="aspect-square bg-surface-container rounded-lg overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="Vivid color pixelated landscape of a mountain range with a purple gradient sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN0PNMLtEAjmdPSsh-K--TycUZQpv7j6JJklxHoKL_cpPcN3G0uKR8XSJi7mtnrsQlOInND4kqwvuTzzRxEz0EKO1Cys1f3c9nOjwV34ub0w5XsaOi0BRE_Ssv0uKA5tprj9bcFUkPjkJXfkc5c5vzEPOqvLQwyC6_r7McaNHWTHmqM2tF5iJrGOa_c-Km8GmPI7D2Rl0rdSJqoaSfLx1oj9ac8dg_qduj_Rd2OZxDKx27yxqxkLeMqKCnIiUq9vzJ-5uqp1XM65I"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="text-white font-bold text-sm">View Work</span>
+</div>
+</div>
+<div class="aspect-square bg-surface-container rounded-lg overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="Abstract wavy lines in pixel art style with blue and green hues" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuAS5ILlcaIEUh7zM8ptm_Yk5y50bWdorlfn57ztxctRlcZYwAF_7V3zs0osxa1Wr-RYHP8y8c9Y_Lt7Fty2dkB8YiHZiGQUF0a4zDzrzbUXfeBCSQbAV88EWRnJZsLp3NKLsDybzGUFluryEno25CuxzN_husMJv0TFQMghpA5CDu5pTG-m3c0DKrb347M_jKa75JNLPLNJ6EPrepXLlwElo9IF3ruwJaY4t2vrZ9_VTMtDcQdcu_DPrmup-Cz4m-IzaDz1wOGLk"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="text-white font-bold text-sm">View Work</span>
+</div>
+</div>
+<div class="aspect-square bg-surface-container rounded-lg overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="Geometric pixel art pattern with overlapping circles and squares in neon colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRnax-5yyNz7_VCgljxQbJEjhSQIDo8ip0PyXKIZmVOyvQLb_IU7SZm9QufJq360NPevFSF3RJAAKQUz5vZ-dZcIEPs7doAqPWT6VNM7svZUQC7QkO-2F1ZnLtoyzpztgNVPvNXWOHFYh38qgrWq1Dz2Ud2g8QhsiE3C9dzhhPfUyR3F-4R1TSAEUDDSzndxsmSnkloWEI2HsqcClL8lBlU8dCOt1AL2-F4lJ4BB7PCFmG2auk15Rkh3jb9DgUIoFZw1YSDcR23gU"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="text-white font-bold text-sm">View Work</span>
+</div>
+</div>
+<!-- Row 2 - New Card -->
+<div class="aspect-square bg-surface-container rounded-lg overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="Minimalist pixel art of a small cozy house with smoke rising from a chimney at dusk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3n9tO2p6x_N7E-Z8R3L1Yk-V0C6yW8S5D4F3G2H1J0K9L8M7N6O5P4Q3R2S1T0U"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="text-white font-bold text-sm">View Work</span>
+</div>
+</div></div>
+<button class="w-full py-4 bg-surface-container-low rounded-xl text-primary font-bold hover:bg-surface-container-high transition-colors">
+                    Load More Recent Art
+                </button>
+</div>
+<!-- Right: Weekly Rankings -->
+<div class="lg:col-span-4">
+<div class="bg-surface-container-lowest border border-outline-variant/10 rounded-2xl p-6 shadow-sm">
+<h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                        Weekly Rankings
+                    </h2>
+<div class="space-y-6">
+<!-- Rank 1 -->
+<div class="flex items-center gap-4 group cursor-pointer">
+<div class="w-8 h-8 flex items-center justify-center font-bold text-primary italic text-xl">1</div>
+<div class="w-12 h-12 bg-slate-200 rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Pixelated close up of a retro video game console controller" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqSdMcVKcD_ElCKHwDJx7B9Keq-CYdaqymFJB0Ehw4yPTbgB-TwBvVLhWrUOb-17LNjhxf5MftwWbAh-pmJuN024rRHvKHuIjjILIBKOEH4GakzWz9Utz7X9m_Pgiz3Ku-k8jxnPGViJOTD1md6ypx-PXG_nm3tlHOjyoBMdnzcgQoqrTXvnIeM0-J_Q6tZUG3F7l-Z-kanqoP-Wd2lulVyALu9ud-S3BWjtsASROy6S8FioQA9Gfd7aNIvLJcPnLDRRj_pR5XhP4"/>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-sm line-clamp-1 group-hover:text-primary">Neon Streets Alpha</h4>
+<p class="text-xs text-on-surface-variant">@NightCity</p>
+</div>
+<div class="text-xs font-bold text-secondary">+12.4k</div>
+</div>
+<!-- Rank 2 -->
+<div class="flex items-center gap-4 group cursor-pointer">
+<div class="w-8 h-8 flex items-center justify-center font-bold text-slate-400 italic text-lg">2</div>
+<div class="w-12 h-12 bg-slate-200 rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Minimalist abstract pixel pattern in grey and white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwPxXoa5TSQkK6FrHrIcylw_c0jMoJSPdMQr7Y6nuLv4NNU7HN_n78i8DofTXAf-CZ_cfcCrwTYO-Eh6avuRcsG0Kimu-SCnRA-TyL6phrM8FxwnDyeQzI7_fgRjb48u0ToQRdF6wzOQLZQQkkCQ93eX-PCR2NE_SWkloxT9UUlXAcLRM8SfEhDHcCZ5XhnnClQSmObCWyb59qi8-wsv2CAKcjfIj5jmQwDNSwcfXyZZprFld0rFpSCyOC02wY6KjFn57K4M40-uM"/>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-sm line-clamp-1 group-hover:text-primary">Ethereal Plane</h4>
+<p class="text-xs text-on-surface-variant">@VoidSpirit</p>
+</div>
+<div class="text-xs font-bold text-secondary">+10.1k</div>
+</div>
+<!-- Rank 3 -->
+<div class="flex items-center gap-4 group cursor-pointer">
+<div class="w-8 h-8 flex items-center justify-center font-bold text-slate-400 italic text-lg">3</div>
+<div class="w-12 h-12 bg-slate-200 rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Vivid color pixel art of a dense green forest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyQZ6MbCPlMnFnKtwaOOkMqg9mR2cxlwba6q1ORQuK_L-zsuR_hLmoq1tAkl_LgMQ_7hUYbcqw6H5yCtrFjMSvyHxLtR9c2pGHLcUL_F4Sp1HpmD1OS74uboTaYEZGgbfT3AGwq6TfaIMeKyn75yVOY4cwkZpvC_6HODY-xx054Gj7pemBdUb8LGm5ySBnDIGYpuiQlVxL_jnBPTWFCHQZdvekARM3A_W8lVR1doa27I7f3gkK-oJsPglw5-UkHQ8uGEqXXtEC_Xo"/>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-sm line-clamp-1 group-hover:text-primary">Verdant Souls</h4>
+<p class="text-xs text-on-surface-variant">@MossChild</p>
+</div>
+<div class="text-xs font-bold text-secondary">+8.7k</div>
+</div>
+<!-- Rank 4 -->
+<div class="flex items-center gap-4 group cursor-pointer">
+<div class="w-8 h-8 flex items-center justify-center font-bold text-slate-400 italic text-lg text-opacity-50">4</div>
+<div class="w-12 h-12 bg-slate-200 rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Pixel art background of a futuristic high-tech laboratory" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOoFxDVw0KUZ1GL9CzIPEXhxzT79URj8KFD_dM96ff4_shkq63f1ZNcJ61RmZrkeQxgfCiYrO-cVoLLNGot1Ts94r1cS-cCy9mkjKhskAGu0T1WDG-Zg3dyMmJuH-gZDdEZPku43FwJWZxqF12RBOdmSwmP2FZ5OCjUbHMeY_hGaOpjgJLzeEjjYsrH2dipAS3xYrU9JRO8AxIJO-doajM4kfdJs13rOPgBCFcMa1ubqU5PakCIIP7rqEUuXx_zqsMFL1ul2D2v7c"/>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-sm line-clamp-1 group-hover:text-primary">Circuit Breaker</h4>
+<p class="text-xs text-on-surface-variant">@Sparky</p>
+</div>
+<div class="text-xs font-bold text-secondary">+7.2k</div>
+</div>
+<!-- Rank 5 -->
+<div class="flex items-center gap-4 group cursor-pointer">
+<div class="w-8 h-8 flex items-center justify-center font-bold text-slate-400 italic text-lg text-opacity-50">5</div>
+<div class="w-12 h-12 bg-slate-200 rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Smooth pixelated gradient from purple to blue with a subtle mesh texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA2vBDRwadQnM-fseqfxJ16LSvhtGQm2ihLVrWUx5TsubMvRCKKMjvfFThMFDajy1BqcW0pma0IISspcwSZiO30ZQxU77gMPUQ1zFfeP_T5mjGTxuFMiQbDKF-6hPRKXXT2VqO-uFIpUHR655QUqv8hdBhAmdaX7uPJKsvZ6fBTlFjlJVpmEMFSqGJ4h6ylOW1tjR977omC41iTuPTqzVrYOK1FPACMA8bI_RFFz5JGQJ5TjyUZx9bcikRbKdBKd8s3ibMl4-tnB8"/>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-sm line-clamp-1 group-hover:text-primary">Obsidian Flow</h4>
+<p class="text-xs text-on-surface-variant">@Gravel</p>
+</div>
+<div class="text-xs font-bold text-secondary">+6.5k</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Artists of the Week Section -->
+<section class="max-w-[1440px] mx-auto px-8">
+<h2 class="text-3xl font-bold mb-10 text-center">Artists of the Week</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+<!-- Artist 1 -->
+<div class="flex flex-col items-center text-center space-y-4">
+<div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-primary to-secondary">
+<div class="w-full h-full rounded-full border-4 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young man with glasses smiling in soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXhPugGLrN0ejEYCMkT-E-2Jrs1P_i6pQ-TBo43PWW3N4aOuoZcFld_tPGWiyYpb91sgaIj6NIkAsD7nfnZn5RlntECuoe4YQZR44x2Brs8WQHtrKWnv4VOBLlbD_WuQz17jchpCKJB7hCGuquT5v-Y_wQwYfZZ39XIkbl5b0ZnHLaaf1nNnz6TAGkWRH4IZ2qfzPpssvw_93PxaB2hk7MqqLG5iaxROyqrNuo2r84aKVPpu8gCc_NzrMc8iby_bj1vzTdVIf2FrI"/>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-lg">Alex V.</h4>
+<p class="text-xs font-bold text-primary uppercase tracking-widest font-label">Level 48 Master</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all active:scale-95">Follow</button>
+</div>
+<!-- Artist 2 -->
+<div class="flex flex-col items-center text-center space-y-4">
+<div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-primary to-secondary">
+<div class="w-full h-full rounded-full border-4 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a woman with curly hair laughing in outdoor sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6PQadg_gdybwinUemSfX3V3ocyecePFflahVRjkn19JqTu4d755yjL6flgTQu04wqqWlnt2MEI7OMbwKIbNE2u4X5uMFCdLXbPmPXrdH1VDPbd9i9WiHtEJfWKNaLcVMOV4zOlFg9PWEV8P_tau5o62BksEtBpA0AL8dyvfXeMrS2k7-Q8jBtVYk5nx6ahU50zEUmjCpe9n-HWVcffqOJAUaC_OXzwJpIlRRqvzZkXrgW9G1vSzPKo0H6aq2tdadtbqyaYng76mQ"/>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-lg">Sora Moon</h4>
+<p class="text-xs font-bold text-primary uppercase tracking-widest font-label">Level 52 Legend</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all active:scale-95">Follow</button>
+</div>
+<!-- Artist 3 -->
+<div class="flex flex-col items-center text-center space-y-4">
+<div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-primary to-secondary">
+<div class="w-full h-full rounded-full border-4 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a man with a beard looking thoughtfully at the camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8qdq9a6PAMZAuTWZ_hbu9OCSQpsTG7CdHiHD5SOu704FeTFyO_ObhKrN72zpgWFUSbpUdYY23WDII7B8IO5yT9_EGotHQB_08HSGcezs1L_KR5QlUgKvx4E1OR5yg_jNdilkncqh3IuifvaszhxplqvnEk-RrInXyjsDr38_tP2YxtVUo-B7TyBQ0pPAviUkNdAmPSIGu6TLekls3e_An82vVdA16ug8C6yNTymbnTG16pFp57YXoG-u68rwFywhR1gVbS2MDiVg"/>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-lg">Bit_Forge</h4>
+<p class="text-xs font-bold text-primary uppercase tracking-widest font-label">Level 39 Artisan</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all active:scale-95">Follow</button>
+</div>
+<!-- Artist 4 -->
+<div class="flex flex-col items-center text-center space-y-4">
+<div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-primary to-secondary">
+<div class="w-full h-full rounded-full border-4 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Stylish woman in a fashion shoot with soft dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsUyiCLCQ0rGygFI5G3bEyhyZIHzH5zrBQjrugbhK1hRLR68JWmAqvUTA4K7ZCrSYyWoDAQAn-TsXcUdfHKH__TAC3bnfHS3tRwZbXBttGuklqQ9HXUJcgzKTizDNV3v9civ5kBs9fYRy2u1BWVAyzDOsem2cA68_h5ckvzewwkYjAIABKjdgDUloeDTj9uDrBW6qmbqH0MiDuIlnCS4nbyq-7-wxU4FD8waH_sueGBj0NoSr1BQWGvhcOV2SHEylC53bDHTJarl0"/>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-lg">Elara Pixel</h4>
+<p class="text-xs font-bold text-primary uppercase tracking-widest font-label">Level 45 Master</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all active:scale-95">Follow</button>
+</div>
+<!-- Artist 5 -->
+<div class="flex flex-col items-center text-center space-y-4">
+<div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-primary to-secondary">
+<div class="w-full h-full rounded-full border-4 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Friendly man in casual attire smiling outdoors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCie0cP0xJNVySe6jd8wqykhjgodAw5L709TQSLR48Engd-fCskLk1QBntfA6g7FdUgiB7rb6qUI3xajIIQxKTBfewkJiwDbP8jqPFpw2Hd4Ey5oH9pG9e3e_bQkBoPAvZtO7iTC4U3ErJd4NKDN6Xm6H9Onf2Knz-FR1YsSMiT96Z2-XvXJE7P_v5v2LKCVvewHpg_j56SekmWGyeJpztFCxNfJN1OkXd4k3Zi-C2FP2TjOlgMU186wcMqiasEXVlxkMPZwsgKFQI"/>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-lg">Koda Code</h4>
+<p class="text-xs font-bold text-primary uppercase tracking-widest font-label">Level 31 Creator</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all active:scale-95">Follow</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-8 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-[1440px] mx-auto space-y-4 md:space-y-0">
+<div>
+<div class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2 font-headline">PixelHub</div>
+<p class="text-slate-500 text-sm font-body">© 2024 PixelHub. The Curated Canvas.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-slate-500 hover:text-violet-500 transition-colors text-sm font-medium hover:underline decoration-violet-500 underline-offset-4" href="#">About</a>
+<a class="text-slate-500 hover:text-violet-500 transition-colors text-sm font-medium hover:underline decoration-violet-500 underline-offset-4" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-violet-500 transition-colors text-sm font-medium hover:underline decoration-violet-500 underline-offset-4" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-violet-500 transition-colors text-sm font-medium hover:underline decoration-violet-500 underline-offset-4" href="#">Artist Guidelines</a>
+<a class="text-slate-500 hover:text-violet-500 transition-colors text-sm font-medium hover:underline decoration-violet-500 underline-offset-4" href="#">Support</a>
+</div>
+<div class="flex space-x-4">
+<button class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition-all opacity-80 hover:opacity-100">
+<span class="material-symbols-outlined text-lg">share</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition-all opacity-80 hover:opacity-100">
+<span class="material-symbols-outlined text-lg">chat</span>
+</button>
+</div>
+</div>
+</footer>
+</body></html>

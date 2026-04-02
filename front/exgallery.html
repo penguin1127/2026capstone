@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Exclusive Gallery | PixelHub</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#d0bcff",
+              "on-surface": "#191c1e",
+              "on-tertiary-fixed": "#400100",
+              "on-secondary": "#ffffff",
+              "surface": "#f7f9fb",
+              "on-error-container": "#93000a",
+              "surface-bright": "#f7f9fb",
+              "inverse-on-surface": "#eff1f3",
+              "on-primary": "#ffffff",
+              "on-primary-fixed": "#23005c",
+              "tertiary": "#b71507",
+              "on-tertiary-container": "#fffbff",
+              "on-tertiary-fixed-variant": "#920600",
+              "surface-container": "#eceef0",
+              "outline": "#7b7486",
+              "primary-container": "#8455ef",
+              "on-secondary-fixed-variant": "#2f2ebe",
+              "tertiary-fixed": "#ffdad4",
+              "tertiary-container": "#dc3220",
+              "secondary": "#4648d4",
+              "tertiary-fixed-dim": "#ffb4a7",
+              "on-primary-container": "#fffbff",
+              "inverse-surface": "#2d3133",
+              "secondary-fixed-dim": "#c0c1ff",
+              "primary-fixed": "#e9ddff",
+              "on-error": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "secondary-container": "#6063ee",
+              "background": "#f7f9fb",
+              "error": "#ba1a1a",
+              "inverse-primary": "#d0bcff",
+              "surface-variant": "#e0e3e5",
+              "on-surface-variant": "#494454",
+              "on-secondary-container": "#fffbff",
+              "on-background": "#191c1e",
+              "on-secondary-fixed": "#07006c",
+              "error-container": "#ffdad6",
+              "outline-variant": "#cbc3d7",
+              "primary": "#6b38d4",
+              "surface-tint": "#6d3bd7",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed": "#e1e0ff",
+              "on-primary-fixed-variant": "#5516be",
+              "surface-dim": "#d8dadc",
+              "on-tertiary": "#ffffff",
+              "surface-container-low": "#f2f4f6"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .pixel-frame {
+        clip-path: polygon(0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px));
+      }
+      .tonal-shift { background: linear-gradient(180deg, #f7f9fb 0%, #eceef0 100%); }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center px-6 py-4 max-w-screen-2xl mx-auto">
+<!-- Brand -->
+<div class="flex items-center gap-8">
+<span class="text-2xl font-bold tracking-tighter text-violet-600 dark:text-violet-400 font-headline">PixelHub</span>
+<!-- Navigation Links -->
+<div class="hidden md:flex items-center gap-6 font-headline tracking-tight">
+<a class="text-violet-700 dark:text-violet-300 font-bold border-b-2 border-violet-600 px-1 py-0.5" href="#">Gallery</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-violet-500 transition-colors duration-200" href="#">Store</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-violet-500 transition-colors duration-200" href="#">Editor</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-violet-500 transition-colors duration-200" href="#">Commission</a>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant p-2 hover:bg-gray-100/50 rounded-full cursor-pointer transition-all active:scale-95">account_circle</span>
+</div>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-20">
+<!-- Hero Section: Featured Artwork -->
+<section class="max-w-screen-2xl mx-auto px-6 mb-16">
+<div class="relative w-full aspect-[21/9] rounded-xl overflow-hidden group">
+<img alt="Celestial Knight" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Stunning cinematic pixel art of a glowing knight standing on a floating asteroid looking at a purple nebula in deep space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsixqIfIBxygqiL4oowUVR77GWl3kN6g4-UCEeTVFw28oRbdyv4n8Xcvl-Ed1YZU0svja-9rWlIA73mfeWe4eMiNnzGQfdw5_05ZrDovYJCtEYKhyrrpi2YKlKpEcHCCsf6l0lOGxAc4-xGb78RrQD4ZX3i0LawsZGNZmRovo_lWY0dQ-hsm7aKeGyaX-w0o6hWZu5fDjjo7d7FoqOjs-ZdFhSr8Aryvq4tocfhUaiKCPmiqGfr5sQGne7Cqm-i-iN3-LHejLZ8yE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-12 w-full flex justify-between items-end">
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-primary text-on-primary text-xs font-bold uppercase tracking-widest rounded-full">Featured Piece</span>
+<span class="text-primary-fixed-dim font-headline font-medium">by Arthemus_Prime</span>
+</div>
+<h1 class="text-6xl font-headline font-bold text-white tracking-tighter">Celestial Knight</h1>
+<div class="flex items-center gap-6 text-white/80">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="text-sm font-medium">12.4k</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span class="text-sm font-medium">85.2k</span>
+</div>
+</div>
+</div>
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary px-8 py-4 rounded-lg font-bold tracking-tight shadow-xl hover:shadow-primary/20 transition-all active:scale-95">
+                        View Piece
+                    </button>
+</div>
+</div>
+</section>
+<!-- Weekly Top 3 Section -->
+<section class="max-w-screen-2xl mx-auto px-6 mb-20">
+<div class="flex items-baseline justify-between mb-8">
+<h2 class="text-3xl font-headline font-bold tracking-tight">Weekly Top 3</h2>
+<div class="h-px flex-grow mx-8 bg-surface-container-highest"></div>
+</div>
+<div class="grid grid-cols-3 gap-8">
+<!-- Rank 1 -->
+<div class="relative surface-container-lowest p-4 rounded-xl flex flex-col gap-4 shadow-sm">
+<div class="absolute -top-4 -left-4 w-12 h-12 bg-primary text-on-primary flex items-center justify-center font-headline font-bold text-xl rounded-lg shadow-lg z-10">1</div>
+<div class="w-full aspect-square overflow-hidden rounded-lg">
+<img class="w-full h-full object-cover" data-alt="detailed pixel art of a cyberpunk city street at night with neon signs reflecting in puddles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1IJhRZmHuJd8cQLIClzi-tP0HU_HYUCkfAwZRmM3vWvc4UqiHsKBZveVvsucLzuF-ZIRt6ggOo57v6Q3JcYsVHJCSt25umOBotb77W8Z3oOVXoP_vd20UGKg98Wrb1i7aG15uCs1tFnW5MvygKN-4amv_Leuu8h2N3yiM5yGhv6bwMzbACZHScztYWxCEQLvUQeUHKf8QLnwwvIDHH4uir2JOFVbTIVhl2jPGWjQwMekN3dnlCOk_xhFV68Qf9oLwANoauBqnO5I"/>
+</div>
+<div>
+<h3 class="font-headline font-bold text-xl">Neon District 09</h3>
+<p class="text-on-surface-variant text-sm">Pixel_Vandal</p>
+</div>
+</div>
+<!-- Rank 2 -->
+<div class="relative surface-container-lowest p-4 rounded-xl flex flex-col gap-4 shadow-sm">
+<div class="absolute -top-4 -left-4 w-12 h-12 bg-secondary text-on-primary flex items-center justify-center font-headline font-bold text-xl rounded-lg shadow-lg z-10">2</div>
+<div class="w-full aspect-square overflow-hidden rounded-lg">
+<img class="w-full h-full object-cover" data-alt="abstract pixel art sunset over a digital ocean with purple and orange gradient waves" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxoiofS4dsY5j-yphZxzxj1314Ih8cBtFqrVTk46aWkweOk_PoW0Wco6mA62AmG76m5p9j3wbYAWeOpErY_jrYhPRwj-4tZ3pfv_YRqnzA_YhG23qsqje1vZnRjZ_ZI3BQ-0RTxKDNJXT78zXOkr0Umb3gtX8CdobvpEYuADkfPuLjEM1APllp6UrP5EFEvs0yMfNO77FAUsG5Fzov8hB_SC0-Zqzl72fbgwqPou_NhFbrykuy0G_9uGwAUjiPhnDPZ_gajWNlHNE"/>
+</div>
+<div>
+<h3 class="font-headline font-bold text-xl">Eventide Pulse</h3>
+<p class="text-on-surface-variant text-sm">SynthWave_Dreams</p>
+</div>
+</div>
+<!-- Rank 3 -->
+<div class="relative surface-container-lowest p-4 rounded-xl flex flex-col gap-4 shadow-sm">
+<div class="absolute -top-4 -left-4 w-12 h-12 bg-surface-container-highest text-on-surface flex items-center justify-center font-headline font-bold text-xl rounded-lg shadow-lg z-10">3</div>
+<div class="w-full aspect-square overflow-hidden rounded-lg">
+<img class="w-full h-full object-cover" data-alt="minimalist pixel art of a single green bonsai tree on a white background with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-A3pjQfH8CqXkABvuaIZnqjHhGxwkY3YU7C1JQy32Rkg0F_V0O9udt-3lVzz5nFwIVl-35tVbNlkl4VB3OpaZ-TSagDzHFhpZkHYah2bmwmNTWxp9FFuSo0B_MDT3SVvHlNRa-lt_59oOh8LyVA-L1h4kxlfkHOgXKe22k_eoQDFyQqFcBm9tWRVQ8Zxs8OHP3tvF2xdz_c9b7694BAuG3IejIz-GuXyNc0nBXVrCVIreeQEF14rTPEcnq5VQfVWkt5YwF5dKIlM"/>
+</div>
+<div>
+<h3 class="font-headline font-bold text-xl">Zen Garden Study</h3>
+<p class="text-on-surface-variant text-sm">MinimalManiac</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Filter Bar -->
+<section class="bg-surface-container-low mb-12 py-8">
+<div class="max-w-screen-2xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+<h2 class="text-4xl font-headline font-bold tracking-tighter">Exclusive Gallery</h2>
+<div class="flex flex-wrap items-center gap-4">
+<!-- Resolution Filter -->
+<div class="flex flex-col gap-1">
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant px-1">Resolution</span>
+<select class="bg-surface-container-lowest border-none rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary min-w-[140px]">
+<option>All Sizes</option>
+<option>16x16 px</option>
+<option>32x32 px</option>
+<option>64x64 px</option>
+<option>128x128 px</option>
+</select>
+</div>
+<!-- Color Count Filter -->
+<div class="flex flex-col gap-1">
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant px-1">Colors</span>
+<select class="bg-surface-container-lowest border-none rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary min-w-[140px]">
+<option>Any Palette</option>
+<option>Monochrome</option>
+<option>8 Colors</option>
+<option>16 Colors</option>
+<option>Full Color</option>
+</select>
+</div>
+<!-- Sort Filter -->
+<div class="flex flex-col gap-1">
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant px-1">Sort By</span>
+<select class="bg-surface-container-lowest border-none rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary min-w-[140px]">
+<option>Latest</option>
+<option>Popular</option>
+<option>Most Viewed</option>
+<option>Highest Rated</option>
+</select>
+</div>
+</div>
+</div>
+</section>
+<!-- Artwork Grid -->
+<section class="max-w-screen-2xl mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<!-- Gallery Item 1 -->
+<div class="group">
+<div class="pixel-frame w-full aspect-square bg-surface-container-highest overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110" data-alt="vibrant pixel art of a mythical dragon soaring through golden clouds at sunrise" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIrFsv14CJXpfF6rt2NLRNUJzV5hKLFql3ig6CRPzog3mQQiujNHrhwq_mvWH79wMEc6ZXLb9SzTgPADHjaTHNIzmk6wCgIETPbqAYzMQTDw6cVQ-p6nU9Wye9VVFHwEjvCam-dIGw3_UhUKvjxZYrKnnEi-UYZWvv6Nn3d8QFvrB0bG815EKK6TPpytiodq2azoPWZAirdaBOjgC0bSKYQia0azopewHOrLcipuoIF2fQTQS9-cOmRNqNlBMs0cKvYFM_Osfl9ok"/>
+</div>
+<div class="flex justify-between items-start px-1">
+<div>
+<h4 class="font-headline font-bold text-lg tracking-tight group-hover:text-primary transition-colors">Dawn of the Wyvern</h4>
+<p class="text-on-surface-variant text-sm font-medium">Draco_Art</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span class="text-xs font-bold">4.2k</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="text-xs font-bold">18k</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Gallery Item 2 -->
+<div class="group">
+<div class="pixel-frame w-full aspect-square bg-surface-container-highest overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110" data-alt="cozy pixel art interior of a library with dust motes dancing in sunbeams through tall windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3iqsslorKQ_Qt9vtD0AeKbB39EKvsosxu-fSItoefaaBH5Z_Ubou010Nl9A9GgJPCoZNtLPEJFpuDYG5sfTLxg5dFW5PhVqqvYlUwa2L0ceb65UygASe-vQ2rOoNu0wXhvrHCbiWfXDBoZHdOzo6y1YOckyOX5Mo_PnQck90dNOMaVbUJwqRtkK0JT5Uvfr5n0YYr2knqH5mj1lhSRiPXR0ihgoNgu-F-B0J-PbDhtBw1CDffJDqa1LMrwM_paQ37pUSqcd47zWw"/>
+</div>
+<div class="flex justify-between items-start px-1">
+<div>
+<h4 class="font-headline font-bold text-lg tracking-tight group-hover:text-primary transition-colors">Forgotten Archives</h4>
+<p class="text-on-surface-variant text-sm font-medium">Scribe_99</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span class="text-xs font-bold">3.8k</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="text-xs font-bold">12k</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Gallery Item 3 -->
+<div class="group">
+<div class="pixel-frame w-full aspect-square bg-surface-container-highest overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110" data-alt="geometric pixel art portrait of a futuristic cyborg with glowing blue circuits on obsidian skin" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3DRb56gb565o_WkbJq5rHTwO4Uy2SocIZVGxf628p-dkjVlQrv9A_8axQRt1pMQNMLzNNIztXLFRoOzPmOBSvmrRK9tMpnAVhxxSuJiJoH3MZV3c5WBb2yaUAHfc2E6mi8h06kt2VXpfgu0jMn7qJE0zokUPxNV82o4fkf1Zl2gwWWjlemZmJXF8tA8ROFRl467IXU3uIacKTy5RMUUftZteOdT2hPIKvKhgAeu6inlcHkZAQQSIDFaAaZdsg3kQ_tZw_wRyaQyA"/>
+</div>
+<div class="flex justify-between items-start px-1">
+<div>
+<h4 class="font-headline font-bold text-lg tracking-tight group-hover:text-primary transition-colors">Neural Network v2</h4>
+<p class="text-on-surface-variant text-sm font-medium">Cyber_Spirit</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span class="text-xs font-bold">6.1k</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="text-xs font-bold">31k</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Gallery Item 4 -->
+<div class="group">
+<div class="pixel-frame w-full aspect-square bg-surface-container-highest overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110" data-alt="peaceful pixel art of a snow-covered mountain peak reflecting in a still blue lake at twilight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmo59BUsyPczi0vt5Jz_SobU4IUAICeI8egCFcD6hzfb2x6SFKOyzB2GM9883Pglamoooy5r-vR6SLXqrnbiRz2HHRQwzLnTzrZaitZf_1RAnps48KjKIW7UDSox-yGNbH2EDesZiVtq8iOl_UtFy4uRpn3PY9K466cqMEl3EKSvbazZZs9rD-bUhmHTxVo_J9gAQ6jppPfLqu8s25vB26v1tk5dRKeNOT5y64XREX0fGKDDBYoCMzl1YpHklCNvt0UtAmK_EgPx0"/>
+</div>
+<div class="flex justify-between items-start px-1">
+<div>
+<h4 class="font-headline font-bold text-lg tracking-tight group-hover:text-primary transition-colors">Winter Solitude</h4>
+<p class="text-on-surface-variant text-sm font-medium">NaturePixel</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span class="text-xs font-bold">2.9k</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="text-xs font-bold">9.4k</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Gallery Item 5 -->
+<div class="group">
+<div class="pixel-frame w-full aspect-square bg-surface-container-highest overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110" data-alt="surreal pixel art of a giant floating eye over a desert landscape with strange purple vegetation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOhVEbkR9qK1tWFKB_TSNPHHNe1lMLAQy-iKll2yqyxscJvQXGopKUmP0P3NUCTHVxDa55zFmjc1wrB9flLxd0fxKQIJU8mqU36_S0J-y1jOvG1MXR_kGrIA1lwRax42uvXnBu4st6DdVICF2gghymZXzc3wk1-Neh6c-EShdNZO_eNXknshCGDU37UbPTnkVNJHES7M8eMMTV6I8tfQm13eF7DXRO5WLVgaovVN223hV51dhed1nMPlxShlHPAxZNSQrDG8NdAag"/>
+</div>
+<div class="flex justify-between items-start px-1">
+<div>
+<h4 class="font-headline font-bold text-lg tracking-tight group-hover:text-primary transition-colors">The Watcher</h4>
+<p class="text-on-surface-variant text-sm font-medium">Void_Walker</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span class="text-xs font-bold">5.5k</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="text-xs font-bold">24k</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Gallery Item 6 -->
+<div class="group">
+<div class="pixel-frame w-full aspect-square bg-surface-container-highest overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110" data-alt="retro pixel art of an old computer desk with floppy disks and a chunky monitor in a bedroom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_Jj_E8FhW7GX5Dgqc00xidWIDVyMvyi4HhshvBh6IVcnNF4QAK8uuKgAxGeOVXHJ_toANdW4U6AVPcSkOe_nvvsY5Rkqw4UojN-pT5qJnJQtft9sJbdimqXGAZ5PClbeTuUjMWfIt9PJNjgRYjF0XcDYAU6cmIZFBumAs3YN4ztSWhJJ7144bVwQ8tHzBWJqicccOyrliC4zM4PKx9XwCYPE-24Ns8ea5PCkAPQxBeR2fQ8Ga4ELIB1vw8VTf4smoPEn5pNJR-HU"/>
+</div>
+<div class="flex justify-between items-start px-1">
+<div>
+<h4 class="font-headline font-bold text-lg tracking-tight group-hover:text-primary transition-colors">1994 Memories</h4>
+<p class="text-on-surface-variant text-sm font-medium">Retro_Racer</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span class="text-xs font-bold">1.2k</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="text-xs font-bold">5.1k</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination/Load More -->
+<div class="mt-20 flex justify-center">
+<button class="bg-surface-container-highest text-on-surface font-bold px-12 py-4 rounded-lg hover:bg-surface-container-high transition-colors active:scale-95">
+                    Load More Masterpieces
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-gray-50 dark:bg-gray-950 w-full py-12 px-6 border-t border-gray-200 dark:border-gray-800">
+<div class="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col gap-2">
+<span class="font-headline font-bold text-gray-900 dark:text-gray-100 text-xl tracking-tighter">PixelHub</span>
+<p class="font-body text-sm text-gray-500 dark:text-gray-400">© 2024 PixelHub. The Curated Canvas.</p>
+</div>
+<div class="flex items-center gap-8 font-body text-sm">
+<a class="text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 hover:underline decoration-violet-500 underline-offset-4 transition-opacity duration-300" href="#">Terms</a>
+<a class="text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 hover:underline decoration-violet-500 underline-offset-4 transition-opacity duration-300" href="#">Privacy</a>
+<a class="text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 hover:underline decoration-violet-500 underline-offset-4 transition-opacity duration-300" href="#">Support</a>
+<a class="text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 hover:underline decoration-violet-500 underline-offset-4 transition-opacity duration-300" href="#">Artists</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center cursor-pointer hover:bg-primary/10 hover:text-primary transition-all">
+<span class="material-symbols-outlined text-lg">share</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center cursor-pointer hover:bg-primary/10 hover:text-primary transition-all">
+<span class="material-symbols-outlined text-lg">mail</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

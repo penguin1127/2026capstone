@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PixelHub | My Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-high": "#e6e8ea",
+              "tertiary-fixed-dim": "#ffb4a7",
+              "error-container": "#ffdad6",
+              "surface-bright": "#f7f9fb",
+              "surface-dim": "#d8dadc",
+              "on-secondary-fixed-variant": "#2f2ebe",
+              "surface-tint": "#6d3bd7",
+              "on-secondary-container": "#fffbff",
+              "on-primary-fixed": "#23005c",
+              "on-secondary": "#ffffff",
+              "inverse-on-surface": "#eff1f3",
+              "tertiary-container": "#dc3220",
+              "outline": "#7b7486",
+              "on-primary-fixed-variant": "#5516be",
+              "surface-container-low": "#f2f4f6",
+              "secondary-fixed-dim": "#c0c1ff",
+              "on-secondary-fixed": "#07006c",
+              "outline-variant": "#cbc3d7",
+              "on-tertiary-fixed-variant": "#920600",
+              "surface-container-highest": "#e0e3e5",
+              "on-error-container": "#93000a",
+              "surface-container": "#eceef0",
+              "secondary-container": "#6063ee",
+              "primary-fixed": "#e9ddff",
+              "on-tertiary": "#ffffff",
+              "on-surface-variant": "#494454",
+              "tertiary-fixed": "#ffdad4",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#e1e0ff",
+              "primary": "#6b38d4",
+              "surface": "#f7f9fb",
+              "primary-container": "#8455ef",
+              "on-surface": "#191c1e",
+              "inverse-surface": "#2d3133",
+              "on-tertiary-fixed": "#400100",
+              "surface-variant": "#e0e3e5",
+              "secondary": "#4648d4",
+              "inverse-primary": "#d0bcff",
+              "primary-fixed-dim": "#d0bcff",
+              "background": "#f7f9fb",
+              "tertiary": "#b71507",
+              "on-primary": "#ffffff",
+              "on-tertiary-container": "#fffbff",
+              "on-primary-container": "#fffbff",
+              "surface-container-lowest": "#ffffff",
+              "error": "#ba1a1a",
+              "on-background": "#191c1e"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .pixel-grid {
+        background-image: radial-gradient(circle, #6b38d4 1px, transparent 1px);
+        background-size: 24px 24px;
+        opacity: 0.05;
+      }
+      .pixel-frame {
+        clip-path: polygon(
+          0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
+          100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
+        );
+      }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar Component from Shared JSON -->
+<nav class="fixed top-0 w-full z-50 bg-[#f7f9fb]/80 dark:bg-[#191c1e]/80 backdrop-blur-xl">
+<div class="flex justify-between items-center px-8 h-16 w-full max-w-screen-2xl mx-auto font-['Space_Grotesk'] text-sm tracking-tight">
+<div class="text-2xl font-bold tracking-tighter text-[#6b38d4] dark:text-[#8B5CF6]">PixelCanvas</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#191c1e] dark:text-[#f7f9fb] opacity-70 hover:opacity-100 hover:text-[#6b38d4] transition-all duration-200" href="#">Gallery</a>
+<a class="text-[#191c1e] dark:text-[#f7f9fb] opacity-70 hover:opacity-100 hover:text-[#6b38d4] transition-all duration-200" href="#">Store</a>
+<a class="text-[#191c1e] dark:text-[#f7f9fb] opacity-70 hover:opacity-100 hover:text-[#6b38d4] transition-all duration-200" href="#">Editor</a>
+<a class="text-[#191c1e] dark:text-[#f7f9fb] opacity-70 hover:opacity-100 hover:text-[#6b38d4] transition-all duration-200" href="#">Commission</a>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden sm:flex items-center bg-[#f2f4f6] dark:bg-[#2c2e30] rounded-full px-4 py-1.5 gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-xs w-48 font-body" placeholder="Search creators..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="active:scale-95 duration-200"><span class="material-symbols-outlined text-on-surface-variant">notifications</span></button>
+<button class="active:scale-95 duration-200"><span class="material-symbols-outlined text-on-surface-variant">mail</span></button>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full object-cover ring-2 ring-primary/20" data-alt="close up of a modern stylish person with short hair and glasses in a clean minimal studio setting with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTIQBvkmKYhU-s-7qrUgFga9yU13wu0_2BtauIyeiYjhA_88EINZJiq-Atbp82mcblfiFhW7O8DHWOVz-D2wVlaL5SI9ZiaqmtoHCK-W_PCEOEizR10vG8ir8j0Ks3gK-MhjNkIkuU8oXJPY4DG8BgilzaYwy1ln9wYPCZvxDx7uZ7TSeUn0ceNLKGV-cw14Gm9p2XP2TEbWOGuLVq8sXMJNiB1O--PckBu901twFEke9tX4beQLb-SrG5qftNJnSa8_s31Cbk80E"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- SideNavBar Component (Hidden on small, anchored for desktop) -->
+<aside class="h-screen w-64 fixed left-0 top-0 pt-20 bg-[#f2f4f6] dark:bg-[#121416] hidden xl:flex flex-col gap-2 pr-4 z-40">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold">AP</div>
+<div>
+<div class="font-headline font-bold text-on-surface text-sm">ArtistePixel</div>
+<div class="text-[10px] text-primary font-bold tracking-widest uppercase">Master Rank</div>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-4 px-6 py-3 text-[#191c1e] dark:text-[#f7f9fb] opacity-60 hover:opacity-100 hover:bg-[#eceef0] dark:hover:bg-[#1d1f21] transition-colors duration-200 font-['Manrope'] text-sm font-semibold" href="#">
+<span class="material-symbols-outlined">person</span> Profile
+            </a>
+<a class="flex items-center gap-4 px-6 py-3 bg-white dark:bg-[#191c1e] text-[#6b38d4] dark:text-[#8B5CF6] rounded-r-full shadow-sm font-['Manrope'] text-sm font-semibold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">palette</span> Creations
+            </a>
+<a class="flex items-center gap-4 px-6 py-3 text-[#191c1e] dark:text-[#f7f9fb] opacity-60 hover:opacity-100 hover:bg-[#eceef0] dark:hover:bg-[#1d1f21] transition-colors duration-200 font-['Manrope'] text-sm font-semibold" href="#">
+<span class="material-symbols-outlined">bolt</span> Activity
+            </a>
+<a class="flex items-center gap-4 px-6 py-3 text-[#191c1e] dark:text-[#f7f9fb] opacity-60 hover:opacity-100 hover:bg-[#eceef0] dark:hover:bg-[#1d1f21] transition-colors duration-200 font-['Manrope'] text-sm font-semibold" href="#">
+<span class="material-symbols-outlined">payments</span> Commissions
+            </a>
+<a class="flex items-center gap-4 px-6 py-3 text-[#191c1e] dark:text-[#f7f9fb] opacity-60 hover:opacity-100 hover:bg-[#eceef0] dark:hover:bg-[#1d1f21] transition-colors duration-200 font-['Manrope'] text-sm font-semibold" href="#">
+<span class="material-symbols-outlined">group</span> Social
+            </a>
+</nav>
+<div class="mt-auto px-6 pb-8 flex flex-col gap-4">
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary py-3 rounded-lg font-headline font-bold text-sm shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+                New Creation
+            </button>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-4 py-2 text-[#191c1e] opacity-60 hover:opacity-100 text-xs font-semibold" href="#">
+<span class="material-symbols-outlined text-lg">settings</span> Settings
+                </a>
+<a class="flex items-center gap-4 py-2 text-[#191c1e] opacity-60 hover:opacity-100 text-xs font-semibold" href="#">
+<span class="material-symbols-outlined text-lg">help</span> Help
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-12 px-6 md:px-12 xl:ml-64 max-w-7xl mx-auto">
+<!-- Top Section: User Profile Area -->
+<section class="relative bg-surface-container-lowest rounded-xl p-8 mb-12 shadow-sm">
+<div class="pixel-grid absolute inset-0 pointer-events-none"></div>
+<div class="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8">
+<!-- Large Circular Avatar -->
+<div class="relative">
+<div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden ring-4 ring-white shadow-xl">
+<img alt="PixelMaster_01 profile" class="w-full h-full object-cover" data-alt="vibrant and artistic portrait of a creative professional in a bright environment with soft warm lighting and a friendly expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJhh5qsiTAEGhGBszMHL4c2W9bZ6miM2nEKKMGy1XmmTNzm0Pe50BVPGtKHotQovzXebU-Hce_O-ufRS61-8szLJozRhi3_QBXVUIjyUd4-C6VRcdDKGhABOojxjE-vHNQkPjiipPkBnsX73y_NR3gHnlq7MzLJF7Cc4drT5OHbopuJbfLkLEdW4SPzC7ZCz3jsdI6kJa1DeqiI9VSyTMKl90E0vk9Se9urMLTj7l9Xg0CBlDsTIXtb628WcxpPgZzj78iruRgdf4"/>
+</div>
+<div class="absolute bottom-2 right-2 bg-primary text-white p-1.5 rounded-full border-2 border-white">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<!-- Nickname, Bio, Stats -->
+<div class="flex-1 text-center md:text-left">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+<div>
+<h1 class="text-3xl md:text-4xl font-headline font-bold text-on-surface tracking-tight">PixelMaster_01</h1>
+<p class="text-primary font-label text-sm font-bold mt-1">@artiste_pixel</p>
+</div>
+<button class="bg-surface-container-highest text-on-surface px-6 py-2 rounded-lg font-label font-bold text-sm hover:bg-surface-dim transition-colors flex items-center gap-2 self-center md:self-start">
+<span class="material-symbols-outlined text-lg">edit</span>
+                            Edit Profile
+                        </button>
+</div>
+<p class="text-on-surface-variant max-w-xl mb-6 font-body leading-relaxed">
+                        Pixel artist specializing in isometric landscapes. Inspired by 16-bit classics and cyberpunk aesthetics. Currently working on 'The Neon Grid' series. Available for commissions.
+                    </p>
+<div class="flex justify-center md:justify-start gap-12 border-t border-surface-container pt-6">
+<div class="text-center md:text-left">
+<div class="text-2xl font-headline font-bold text-on-surface">1.2k</div>
+<div class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Followers</div>
+</div>
+<div class="text-center md:text-left">
+<div class="text-2xl font-headline font-bold text-on-surface">450</div>
+<div class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Following</div>
+</div>
+<div class="text-center md:text-left">
+<div class="text-2xl font-headline font-bold text-on-surface">8.4k</div>
+<div class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Likes</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Content Section -->
+<section>
+<!-- Sub-tabs Logic -->
+<div class="flex items-center justify-between border-b border-surface-container-high mb-8">
+<div class="flex gap-8">
+<button class="pb-4 border-b-2 border-primary text-on-surface font-headline font-bold text-base transition-all">Gallery Works</button>
+<button class="pb-4 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface font-headline font-medium text-base transition-all">Registered Assets</button>
+<button class="pb-4 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface font-headline font-medium text-base transition-all">Saved Projects</button>
+</div>
+<div class="hidden sm:flex gap-2 mb-4">
+<button class="p-2 bg-surface-container rounded-lg text-on-surface-variant"><span class="material-symbols-outlined">grid_view</span></button>
+<button class="p-2 hover:bg-surface-container rounded-lg text-on-surface-variant opacity-50"><span class="material-symbols-outlined">view_list</span></button>
+</div>
+</div>
+<!-- Artwork Grid (3-column layout) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="aspect-square relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover pixel-frame group-hover:scale-105 transition-transform duration-500" data-alt="vibrant abstract pixel art of a cyberpunk city at night with neon lights reflecting in puddles and high contrast colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP_Kqv2LoOrU_ha8xtDQdjGnkuthAnxB4fiLsWW5Yv2ohpwMYg7lZQAyUsb4AwaajMvQOW5jwF7JUuqKON99-n4G5R8HB4Oxw_N1oCtOmvhIqCnzS8-u7fMvUB4JeZE22BcPtLiqH0oKMrNZsw0ZdFS5gLHpniJupYEFrtSeNKg8hEInvh69cuOLRMp4ZYQm5X6d4G0R3-zvMAFPm-I70zgrm-EWcNpHvHMq5R3_QyvHvXDwcIU3o8wxjDuPRyrTARxZbVNHmBiFg"/>
+<!-- Hover Overlay -->
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-6 text-white">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-bold">245</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-bold">1.8k</span>
+</div>
+</div>
+</div>
+<div class="p-4 flex justify-between items-center">
+<div>
+<h3 class="font-headline font-bold text-on-surface truncate">Neon Rain District</h3>
+<p class="text-xs text-on-surface-variant font-label uppercase tracking-tighter">Isometric Series</p>
+</div>
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="aspect-square relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover pixel-frame group-hover:scale-105 transition-transform duration-500" data-alt="minimalist pixel art illustration of a serene mountain landscape during dawn with purple and blue gradients and soft atmospheric lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBozv3pF6JdCmHoCJN0VBBlakGJnI4K9Tcuwd5Ex8eQL8yMOmERZND-gOehAo1BkQOloqJma_VaNoRECKYvVaGCNqkmhAAZTD7kdbKWdJ3SySZGyZfadaMdROGDW7QF8YHyvIomxg_bIZZ7JHv05FBjCZAh7_H404BFpLQBjlU1ZjCS9xMkIRnb9nJlo1ypxxKlkG8nzaYghFOWVt0RwabPHY8npcWFB8kAem8O0kQssCs2lQlzaguPBL3845OLRWFTYHk6TU90smQ"/>
+<!-- Hover Overlay -->
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-6 text-white">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-bold">412</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-bold">3.2k</span>
+</div>
+</div>
+</div>
+<div class="p-4 flex justify-between items-center">
+<div>
+<h3 class="font-headline font-bold text-on-surface truncate">Cloud Peak Sanctuary</h3>
+<p class="text-xs text-on-surface-variant font-label uppercase tracking-tighter">Landscape</p>
+</div>
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="aspect-square relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover pixel-frame group-hover:scale-105 transition-transform duration-500" data-alt="stylized 16-bit pixel art character design of a futuristic explorer in a detailed spacesuit standing on an alien planet with two moons" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAMATvaU8YqmhIxpUDorTSQRFUMF_gwSS7NynJWichZeIbro9zCkCmupmUXot7YTTodWkn9ubWjhn4kGwAyBAAAYG9hd6Dr8Yd9Z325uhQk80tK3nP6dB0j6_-F4tpnx7U_Ej5wtKJDty74qIbaH8BQWk0ZJLsXsyp5z7B_hcTon2isGuiDwTCqPyXykA-xym4d2lyHRTxr0zkCjQzcQySOdDcJULZy1SMEFeNE5UELZ1K7Z6PY06Qv4nvWlB4TNrp39ijm-G5_ZA"/>
+<!-- Hover Overlay -->
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-6 text-white">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-bold">189</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-bold">940</span>
+</div>
+</div>
+</div>
+<div class="p-4 flex justify-between items-center">
+<div>
+<h3 class="font-headline font-bold text-on-surface truncate">The Last Voyager</h3>
+<p class="text-xs text-on-surface-variant font-label uppercase tracking-tighter">Character Design</p>
+</div>
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="aspect-square relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover pixel-frame group-hover:scale-105 transition-transform duration-500" data-alt="vibrant pink and orange sunset over a pixelated ocean with low poly waves and a bright glowing sun low on the horizon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtr0PkzBx8g0n6VNTtPvXhQfVFvDqe8WknL9F8PMZY-1SwGD8k4KBqcSec3cAeOJJBTLRdS8pd3FrYj2uI7MHQd9SgIjfSkDJFURaszYJe1M6fYwRVHDx8uT2TTMPh_GWy_LstsIujQ6wxDHzuHwgc7HTT56Z-mVT7d6j4FZBnAyWc_WxasmeM16aguy3hUQRnfUrRwG7E5YCQ6YhXlmgY3ELRnHg6kbelYwnEYnaP2izqXhiQGoDlzETT0CLOR7HNwd-P0lnHb6g"/>
+<!-- Hover Overlay -->
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-6 text-white">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-bold">560</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-bold">5.4k</span>
+</div>
+</div>
+</div>
+<div class="p-4 flex justify-between items-center">
+<div>
+<h3 class="font-headline font-bold text-on-surface truncate">Retro Wave Ocean</h3>
+<p class="text-xs text-on-surface-variant font-label uppercase tracking-tighter">Environment</p>
+</div>
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="aspect-square relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover pixel-frame group-hover:scale-105 transition-transform duration-500" data-alt="abstract geometric pixel patterns in warm earth tones of gold, brown and cream with a modern archival art gallery feel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDO-dRnvSiZ7efwaac_Yii3aM9klGtXQY1fYYGYnNWW7915XIFAkQz1QB4pGVSHvFajQ4Hfn29o7IS3GXSbmKWXsUlYOHFnL8AGoj-uYOgPrLMBFnK1I4qZqdKcyGOAOrhAe8W4NdhBCTHScyCcQgFsiqyAyBGajNY_UZ7ZjzE5tBAKoOqbAFcfgOs7Oy1ncS7p8iBR1G2lgVggN-V01ov_ednV15Zu58n5bnvxgMFSkBi7cNU0vwf6u_cgVNS9QBW9Y3qrgCEgeHU"/>
+<!-- Hover Overlay -->
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-6 text-white">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-bold">128</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-bold">1.1k</span>
+</div>
+</div>
+</div>
+<div class="p-4 flex justify-between items-center">
+<div>
+<h3 class="font-headline font-bold text-on-surface truncate">Geometric Flow 04</h3>
+<p class="text-xs text-on-surface-variant font-label uppercase tracking-tighter">Abstract</p>
+</div>
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="aspect-square relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover pixel-frame group-hover:scale-105 transition-transform duration-500" data-alt="isometric pixel art of a cozy high-tech apartment with glowing computer screens and a window looking out at a raining city" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgzs99R5N4G_5vyfxj-XJM2sA4e4_PL9nqmqMrCE-LDjYJEhsHTFwAuOimnNzrglzcTGZw6EKq-eq-4iQfneIDVy6pgjhgFL_9rzxyM0osvApCA4IgxRn2mzdOqxQSy7FreKkH5j9dSqOpzpkhw1LM3GaEhn14IAUkMoUsbENXBGjQadHkH_fIIPJOYoNPdDviuoKymMCnrp7q_XSAGWKsqYmibvTV6gLbjmXdSBL5TnBIUOBHYHiA5bgdn9P0mUaxEDX4_-klWWg"/>
+<!-- Hover Overlay -->
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-6 text-white">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-bold">892</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">visibility</span>
+<span class="font-bold">10k</span>
+</div>
+</div>
+</div>
+<div class="p-4 flex justify-between items-center">
+<div>
+<h3 class="font-headline font-bold text-on-surface truncate">Cozy Code Terminal</h3>
+<p class="text-xs text-on-surface-variant font-label uppercase tracking-tighter">Isometric Series</p>
+</div>
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+</div>
+</div>
+<!-- Pagination/Load More -->
+<div class="mt-16 flex justify-center">
+<button class="flex items-center gap-2 px-10 py-4 bg-surface-container-highest text-on-surface font-headline font-bold rounded-lg hover:bg-surface-dim transition-all active:scale-95">
+                    Explore More
+                    <span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Mobile Bottom NavBar (Shared Components Rule) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-surface-container flex justify-around items-center h-16 z-50">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant opacity-50">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold">Profile</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">palette</span>
+<span class="text-[10px] font-bold">Creations</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant opacity-50">
+<span class="material-symbols-outlined">bolt</span>
+<span class="text-[10px] font-bold">Activity</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant opacity-50">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-[10px] font-bold">Earn</span>
+</button>
+</nav>
+</body></html>
