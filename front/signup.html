@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Sign Up | PixelHub</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-primary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f2f4f6",
+            "surface-container": "#eceef0",
+            "surface-container-high": "#e6e8ea",
+            "surface-bright": "#f7f9fb",
+            "primary": "#6b38d4",
+            "primary-fixed-dim": "#d0bcff",
+            "on-surface": "#191c1e",
+            "on-surface-variant": "#494454",
+            "outline": "#7b7486",
+            "outline-variant": "#cbc3d7",
+            "surface": "#f7f9fb",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+          },
+          fontFamily: {
+            "headline": ["Space Grotesk"],
+            "body": ["Manrope"],
+          },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .pixel-bg {
+      background-color: #f7f9fb;
+      background-image: radial-gradient(circle, #6b38d4 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    /* Password strength bar */
+    .strength-bar {
+      height: 3px;
+      border-radius: 9999px;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+    /* Input validation states */
+    .input-error {
+      border-color: #ba1a1a !important;
+      background-color: #fff8f8 !important;
+    }
+    .input-success {
+      border-color: #16a34a !important;
+    }
+  </style>
+</head>
+<body class="font-body text-on-surface antialiased min-h-screen flex items-center justify-center relative overflow-x-hidden py-8">
+
+  <!-- Background -->
+  <div class="pixel-bg absolute inset-0 opacity-40 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-surface-container pointer-events-none"></div>
+
+  <!-- Card -->
+  <div class="relative z-10 w-full max-w-md mx-4">
+
+    <!-- Logo -->
+    <div class="text-center mb-8">
+      <a href="main.html" class="inline-flex items-center gap-2 text-3xl font-bold text-primary tracking-tighter font-headline hover:opacity-80 transition-opacity">
+        <span class="material-symbols-outlined text-3xl">grid_view</span>
+        PixelHub
+      </a>
+      <p class="text-on-surface-variant text-sm mt-2">픽셀 아트 크리에이터 커뮤니티</p>
+    </div>
+
+    <!-- Signup Form Card -->
+    <div class="bg-white rounded-2xl shadow-xl shadow-primary/10 border border-outline-variant/40 p-8">
+
+      <h1 class="text-2xl font-bold font-headline tracking-tight text-on-surface mb-1">회원가입</h1>
+      <p class="text-sm text-on-surface-variant mb-8">무료로 시작하세요. 언제든 취소 가능해요.</p>
+
+      <form class="space-y-5" onsubmit="return false;">
+
+        <!-- Username -->
+        <div>
+          <label class="block text-sm font-bold text-on-surface mb-1.5">
+            사용자 이름
+            <span class="text-error ml-0.5">*</span>
+          </label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">alternate_email</span>
+            <input
+              id="usernameInput"
+              type="text"
+              placeholder="pixelartist_kim"
+              oninput="validateUsername(this)"
+              class="w-full pl-10 pr-10 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary focus:bg-white transition-all outline-none"
+            />
+            <span id="usernameStatus" class="material-symbols-outlined absolute right-3.5 top-1/2 -translate-y-1/2 text-lg hidden"></span>
+          </div>
+          <p id="usernameMsg" class="text-xs text-on-surface-variant mt-1.5 px-1">영문 소문자, 숫자, 언더바(_) 사용 가능 · 4~20자</p>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-bold text-on-surface mb-1.5">
+            이메일
+            <span class="text-error ml-0.5">*</span>
+          </label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">mail</span>
+            <input
+              id="emailInput"
+              type="email"
+              placeholder="example@pixelhub.io"
+              oninput="validateEmail(this)"
+              class="w-full pl-10 pr-10 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary focus:bg-white transition-all outline-none"
+            />
+            <span id="emailStatus" class="material-symbols-outlined absolute right-3.5 top-1/2 -translate-y-1/2 text-lg hidden"></span>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label class="block text-sm font-bold text-on-surface mb-1.5">
+            비밀번호
+            <span class="text-error ml-0.5">*</span>
+          </label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">lock</span>
+            <input
+              id="passwordInput"
+              type="password"
+              placeholder="8자 이상 입력"
+              oninput="checkPasswordStrength(this)"
+              class="w-full pl-10 pr-12 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary focus:bg-white transition-all outline-none"
+            />
+            <button
+              type="button"
+              onclick="togglePw('passwordInput','eyeIcon1')"
+              class="absolute right-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors"
+            >
+              <span id="eyeIcon1" class="material-symbols-outlined text-lg">visibility</span>
+            </button>
+          </div>
+          <!-- Strength bar -->
+          <div class="mt-2 px-1">
+            <div class="flex gap-1 mb-1">
+              <div id="bar1" class="strength-bar flex-1 bg-surface-container-high"></div>
+              <div id="bar2" class="strength-bar flex-1 bg-surface-container-high"></div>
+              <div id="bar3" class="strength-bar flex-1 bg-surface-container-high"></div>
+              <div id="bar4" class="strength-bar flex-1 bg-surface-container-high"></div>
+            </div>
+            <p id="strengthLabel" class="text-xs text-on-surface-variant">비밀번호를 입력하세요</p>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div>
+          <label class="block text-sm font-bold text-on-surface mb-1.5">
+            비밀번호 확인
+            <span class="text-error ml-0.5">*</span>
+          </label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">lock_reset</span>
+            <input
+              id="confirmInput"
+              type="password"
+              placeholder="비밀번호 재입력"
+              oninput="checkConfirm(this)"
+              class="w-full pl-10 pr-12 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary/30 focus:border-primary focus:bg-white transition-all outline-none"
+            />
+            <button
+              type="button"
+              onclick="togglePw('confirmInput','eyeIcon2')"
+              class="absolute right-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors"
+            >
+              <span id="eyeIcon2" class="material-symbols-outlined text-lg">visibility</span>
+            </button>
+          </div>
+          <p id="confirmMsg" class="text-xs text-on-surface-variant mt-1.5 px-1 hidden"></p>
+        </div>
+
+        <!-- Terms -->
+        <div class="space-y-2.5 pt-1">
+          <label class="flex items-start gap-3 cursor-pointer group">
+            <input type="checkbox" id="termsAll" onchange="toggleAll(this)" class="mt-0.5 rounded border-outline-variant accent-primary w-4 h-4 flex-shrink-0"/>
+            <span class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">전체 동의</span>
+          </label>
+          <div class="ml-7 space-y-2 border-t border-surface-container-high pt-2.5">
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" class="term-check rounded border-outline-variant accent-primary w-4 h-4 flex-shrink-0" onchange="syncAll()"/>
+              <span class="text-sm text-on-surface-variant flex-1">
+                <span class="text-error font-bold mr-1">[필수]</span>서비스 이용약관 동의
+                <a href="#" class="text-primary hover:underline ml-1 text-xs">보기</a>
+              </span>
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" class="term-check rounded border-outline-variant accent-primary w-4 h-4 flex-shrink-0" onchange="syncAll()"/>
+              <span class="text-sm text-on-surface-variant flex-1">
+                <span class="text-error font-bold mr-1">[필수]</span>개인정보 수집 및 이용 동의
+                <a href="#" class="text-primary hover:underline ml-1 text-xs">보기</a>
+              </span>
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" class="term-check rounded border-outline-variant accent-primary w-4 h-4 flex-shrink-0" onchange="syncAll()"/>
+              <span class="text-sm text-on-surface-variant flex-1">
+                <span class="text-on-surface-variant font-bold mr-1">[선택]</span>마케팅 정보 수신 동의
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="w-full py-3.5 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/25 hover:bg-primary/90 hover:shadow-primary/40 active:scale-[0.98] transition-all font-headline tracking-tight text-base mt-2"
+        >
+          회원가입
+        </button>
+
+      </form>
+
+      <!-- Login link -->
+      <p class="text-center text-sm text-on-surface-variant mt-6">
+        이미 계정이 있으신가요?
+        <a href="login.html" class="font-bold text-primary hover:underline ml-1">로그인</a>
+      </p>
+
+    </div>
+
+    <!-- Back to main -->
+    <p class="text-center mt-6">
+      <a href="main.html" class="flex items-center justify-center gap-1 text-sm text-on-surface-variant hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-base">arrow_back</span>
+        메인으로 돌아가기
+      </a>
+    </p>
+
+  </div>
+
+  <script>
+    function togglePw(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility_off';
+      } else {
+        input.type = 'password';
+        icon.textContent = 'visibility';
+      }
+    }
+
+    function validateUsername(input) {
+      const val = input.value;
+      const status = document.getElementById('usernameStatus');
+      const msg = document.getElementById('usernameMsg');
+      const valid = /^[a-z0-9_]{4,20}$/.test(val);
+      status.classList.remove('hidden');
+      if (val.length === 0) {
+        status.classList.add('hidden');
+        input.className = input.className.replace(' input-error','').replace(' input-success','');
+        msg.textContent = '영문 소문자, 숫자, 언더바(_) 사용 가능 · 4~20자';
+        msg.className = 'text-xs text-on-surface-variant mt-1.5 px-1';
+        return;
+      }
+      if (valid) {
+        status.textContent = 'check_circle';
+        status.style.color = '#16a34a';
+        input.classList.remove('input-error');
+        input.classList.add('input-success');
+        msg.textContent = '사용 가능한 이름입니다.';
+        msg.className = 'text-xs text-green-600 mt-1.5 px-1';
+      } else {
+        status.textContent = 'cancel';
+        status.style.color = '#ba1a1a';
+        input.classList.add('input-error');
+        input.classList.remove('input-success');
+        msg.textContent = '영문 소문자, 숫자, 언더바(_)만 사용 가능 · 4~20자';
+        msg.className = 'text-xs text-error mt-1.5 px-1';
+      }
+    }
+
+    function validateEmail(input) {
+      const val = input.value;
+      const status = document.getElementById('emailStatus');
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      status.classList.remove('hidden');
+      if (val.length === 0) { status.classList.add('hidden'); return; }
+      if (valid) {
+        status.textContent = 'check_circle';
+        status.style.color = '#16a34a';
+        input.classList.remove('input-error');
+        input.classList.add('input-success');
+      } else {
+        status.textContent = 'cancel';
+        status.style.color = '#ba1a1a';
+        input.classList.add('input-error');
+        input.classList.remove('input-success');
+      }
+    }
+
+    function checkPasswordStrength(input) {
+      const val = input.value;
+      const bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3'), document.getElementById('bar4')];
+      const label = document.getElementById('strengthLabel');
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+
+      const colors = ['#ba1a1a', '#f59e0b', '#3b82f6', '#16a34a'];
+      const labels = ['약함', '보통', '강함', '매우 강함'];
+      const labelColors = ['text-red-600', 'text-amber-500', 'text-blue-500', 'text-green-600'];
+
+      bars.forEach((bar, i) => {
+        bar.style.backgroundColor = i < score ? colors[score - 1] : '#e6e8ea';
+      });
+
+      if (val.length === 0) {
+        label.textContent = '비밀번호를 입력하세요';
+        label.className = 'text-xs text-on-surface-variant';
+      } else {
+        label.textContent = '비밀번호 강도: ' + labels[score - 1];
+        label.className = 'text-xs ' + labelColors[score - 1];
+      }
+
+      checkConfirm(document.getElementById('confirmInput'));
+    }
+
+    function checkConfirm(input) {
+      const pw = document.getElementById('passwordInput').value;
+      const msg = document.getElementById('confirmMsg');
+      if (input.value.length === 0) { msg.classList.add('hidden'); return; }
+      msg.classList.remove('hidden');
+      if (input.value === pw) {
+        msg.textContent = '✓ 비밀번호가 일치합니다.';
+        msg.className = 'text-xs text-green-600 mt-1.5 px-1';
+        input.classList.remove('input-error');
+        input.classList.add('input-success');
+      } else {
+        msg.textContent = '✕ 비밀번호가 일치하지 않습니다.';
+        msg.className = 'text-xs text-error mt-1.5 px-1';
+        input.classList.add('input-error');
+        input.classList.remove('input-success');
+      }
+    }
+
+    function toggleAll(checkbox) {
+      document.querySelectorAll('.term-check').forEach(c => c.checked = checkbox.checked);
+    }
+
+    function syncAll() {
+      const checks = document.querySelectorAll('.term-check');
+      const all = Array.from(checks).every(c => c.checked);
+      document.getElementById('termsAll').checked = all;
+    }
+  </script>
+
+</body>
+</html>
