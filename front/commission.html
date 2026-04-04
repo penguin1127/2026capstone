@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Commission | PixelHub</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-background": "#191c1e",
+            "on-primary": "#ffffff",
+            "surface-dim": "#d8dadc",
+            "surface-container-highest": "#e0e3e5",
+            "outline-variant": "#cbc3d7",
+            "surface-container": "#eceef0",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f2f4f6",
+            "surface-bright": "#f7f9fb",
+            "primary": "#6b38d4",
+            "primary-fixed-dim": "#d0bcff",
+            "on-surface": "#191c1e",
+            "surface-container-high": "#e6e8ea",
+            "secondary": "#4648d4",
+            "inverse-on-surface": "#eff1f3",
+            "background": "#f7f9fb",
+            "inverse-surface": "#2d3133",
+            "surface-variant": "#e0e3e5",
+            "on-surface-variant": "#494454",
+            "outline": "#7b7486",
+            "surface": "#f7f9fb",
+            "error": "#ba1a1a",
+          },
+          fontFamily: {
+            "headline": ["Space Grotesk"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .checkerboard {
+      background-image: linear-gradient(45deg, #e0e3e5 25%, transparent 25%),
+        linear-gradient(-45deg, #e0e3e5 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e0e3e5 75%),
+        linear-gradient(-45deg, transparent 75%, #e0e3e5 75%);
+      background-size: 8px 8px;
+      background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+    }
+    #tab-artists { display: block; }
+    #tab-requests { display: none; }
+  </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+
+  <!-- TopNavBar -->
+  <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl shadow-sm">
+    <div class="max-w-screen-2xl mx-auto flex items-center justify-between px-6 h-16">
+      <div class="flex items-center gap-8">
+        <span class="text-2xl font-bold text-primary tracking-tighter font-headline">PixelHub</span>
+        <div class="hidden md:flex items-center gap-6">
+          <a class="text-slate-600 hover:text-primary transition-colors font-headline tracking-tight" href="freegallery.html">Gallery</a>
+          <a class="text-slate-600 hover:text-primary transition-colors font-headline tracking-tight" href="asset-store.html">Store</a>
+          <a class="text-slate-600 hover:text-primary transition-colors font-headline tracking-tight" href="editor.html">Editor</a>
+          <a class="text-primary border-b-2 border-primary pb-1 font-bold font-headline tracking-tight" href="#">Commission</a>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="hidden lg:flex items-center bg-slate-100 rounded-lg px-3 py-1.5 border border-transparent focus-within:border-primary transition-all">
+          <span class="material-symbols-outlined text-slate-500 text-sm">search</span>
+          <input class="bg-transparent border-none focus:ring-0 text-sm w-48" placeholder="Search commissions..." type="text"/>
+        </div>
+        <button class="p-2 hover:bg-slate-50 rounded-lg transition-all active:scale-95">
+          <span class="material-symbols-outlined text-slate-600">notifications</span>
+        </button>
+        <button class="p-2 hover:bg-slate-50 rounded-lg transition-all active:scale-95">
+          <span class="material-symbols-outlined text-slate-600">account_circle</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-16 pb-20 max-w-screen-2xl mx-auto">
+
+    <!-- Page Header -->
+    <div class="px-6 pt-10 pb-8 border-b border-slate-100">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="space-y-2">
+          <h1 class="text-5xl md:text-6xl font-bold font-headline tracking-tighter text-on-surface">Commission</h1>
+          <p class="text-on-surface-variant text-lg">Find pixel art artists or post your own request</p>
+        </div>
+        <div class="flex gap-3">
+          <button id="btn-post-request" onclick="switchTab('requests')" class="flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary rounded-xl font-bold hover:bg-primary/5 active:scale-95 transition-all font-headline">
+            <span class="material-symbols-outlined">edit_note</span>
+            Post a Request
+          </button>
+          <button class="flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-xl font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 active:scale-95 transition-all font-headline">
+            <span class="material-symbols-outlined">brush</span>
+            Register Service
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Bar -->
+      <div class="flex gap-1 mt-8 bg-surface-container-low rounded-xl p-1 w-fit">
+        <button id="tabBtn-artists" onclick="switchTab('artists')" class="px-8 py-2.5 rounded-lg font-bold font-headline text-sm bg-white shadow-sm text-primary transition-all">
+          Browse Artists
+        </button>
+        <button id="tabBtn-requests" onclick="switchTab('requests')" class="px-8 py-2.5 rounded-lg font-bold font-headline text-sm text-on-surface-variant hover:text-on-surface transition-all">
+          Open Requests
+        </button>
+      </div>
+    </div>
+
+    <div class="px-6 pt-8">
+
+      <!-- ===== BROWSE ARTISTS TAB ===== -->
+      <div id="tab-artists">
+
+        <!-- Filter -->
+        <div class="flex flex-wrap items-center gap-3 mb-8">
+          <div class="flex flex-wrap gap-2">
+            <button class="px-4 py-2 bg-primary text-on-primary rounded-full text-sm font-bold">All Styles</button>
+            <button class="px-4 py-2 bg-white border border-slate-200 text-on-surface-variant hover:border-primary hover:text-primary rounded-full text-sm font-bold transition-all">Character</button>
+            <button class="px-4 py-2 bg-white border border-slate-200 text-on-surface-variant hover:border-primary hover:text-primary rounded-full text-sm font-bold transition-all">Environment</button>
+            <button class="px-4 py-2 bg-white border border-slate-200 text-on-surface-variant hover:border-primary hover:text-primary rounded-full text-sm font-bold transition-all">Animation</button>
+            <button class="px-4 py-2 bg-white border border-slate-200 text-on-surface-variant hover:border-primary hover:text-primary rounded-full text-sm font-bold transition-all">Game Asset</button>
+            <button class="px-4 py-2 bg-white border border-slate-200 text-on-surface-variant hover:border-primary hover:text-primary rounded-full text-sm font-bold transition-all">Portrait</button>
+          </div>
+          <div class="ml-auto relative">
+            <select class="appearance-none bg-surface-container-low border border-slate-200 rounded-xl px-5 py-2.5 pr-10 text-sm font-bold text-on-surface focus:ring-2 focus:ring-primary/20 cursor-pointer">
+              <option>Sort: Recommended</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>Most Reviews</option>
+              <option>Newest</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-sm">expand_more</span>
+          </div>
+        </div>
+
+        <!-- Artist Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+          <!-- Artist Card 1 -->
+          <div class="group bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300">
+            <!-- Sample Works Row -->
+            <div class="grid grid-cols-3 h-36">
+              <div class="checkerboard flex items-center justify-center text-3xl border-r border-white/20">🧝</div>
+              <div class="checkerboard flex items-center justify-center text-3xl border-r border-white/20">🏹</div>
+              <div class="checkerboard flex items-center justify-center text-3xl">🌲</div>
+            </div>
+            <div class="p-5">
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold font-headline text-lg">SP</div>
+                  <div>
+                    <h3 class="font-headline font-bold text-lg leading-tight">SpriteKnight</h3>
+                    <div class="flex items-center gap-1 text-amber-500 text-sm">
+                      <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="font-bold text-on-surface">4.9</span>
+                      <span class="text-on-surface-variant">(128 reviews)</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Open</span>
+              </div>
+              <p class="text-sm text-on-surface-variant mb-4 leading-relaxed">Specializing in fantasy character sprites with full walk/attack animation cycles. 3+ years of indie game experience.</p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Character</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Animation</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Fantasy</span>
+              </div>
+              <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                <div>
+                  <span class="text-xs text-on-surface-variant">Starting from</span>
+                  <div class="font-headline font-bold text-xl text-primary">₩25,000</div>
+                </div>
+                <button class="px-5 py-2.5 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all">View Service</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Artist Card 2 -->
+          <div class="group bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300">
+            <div class="grid grid-cols-3 h-36">
+              <div class="checkerboard flex items-center justify-center text-3xl border-r border-white/20">🌆</div>
+              <div class="checkerboard flex items-center justify-center text-3xl border-r border-white/20">🏙️</div>
+              <div class="checkerboard flex items-center justify-center text-3xl">🌃</div>
+            </div>
+            <div class="p-5">
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold font-headline text-lg">ND</div>
+                  <div>
+                    <h3 class="font-headline font-bold text-lg leading-tight">NeonDusk</h3>
+                    <div class="flex items-center gap-1 text-amber-500 text-sm">
+                      <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="font-bold text-on-surface">5.0</span>
+                      <span class="text-on-surface-variant">(64 reviews)</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Open</span>
+              </div>
+              <p class="text-sm text-on-surface-variant mb-4 leading-relaxed">Cyberpunk & sci-fi environments and backgrounds. High-detail parallax scrolling backgrounds my specialty.</p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Environment</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Background</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Sci-Fi</span>
+              </div>
+              <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                <div>
+                  <span class="text-xs text-on-surface-variant">Starting from</span>
+                  <div class="font-headline font-bold text-xl text-primary">₩40,000</div>
+                </div>
+                <button class="px-5 py-2.5 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all">View Service</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Artist Card 3 — Closed -->
+          <div class="group bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300">
+            <div class="grid grid-cols-3 h-36">
+              <div class="checkerboard flex items-center justify-center text-3xl border-r border-white/20">🧙</div>
+              <div class="checkerboard flex items-center justify-center text-3xl border-r border-white/20">⚗️</div>
+              <div class="checkerboard flex items-center justify-center text-3xl">📜</div>
+            </div>
+            <div class="p-5">
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold font-headline text-lg">PW</div>
+                  <div>
+                    <h3 class="font-headline font-bold text-lg leading-tight">PixelWitch</h3>
+                    <div class="flex items-center gap-1 text-amber-500 text-sm">
+                      <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="font-bold text-on-surface">4.8</span>
+                      <span class="text-on-surface-variant">(203 reviews)</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="px-3 py-1 bg-slate-100 text-slate-500 text-xs font-bold rounded-full">Closed</span>
+              </div>
+              <p class="text-sm text-on-surface-variant mb-4 leading-relaxed">Fantasy RPG items, icons, and UI elements. Consistent palette-based style for cohesive game projects.</p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Item / Icon</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">UI</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">RPG</span>
+              </div>
+              <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                <div>
+                  <span class="text-xs text-on-surface-variant">Starting from</span>
+                  <div class="font-headline font-bold text-xl text-slate-400">₩15,000</div>
+                </div>
+                <button class="px-5 py-2.5 bg-slate-100 text-slate-400 rounded-xl font-bold text-sm cursor-not-allowed">Closed</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Artist Card 4 -->
+          <div class="group bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300">
+            <div class="grid grid-cols-3 h-36">
+              <div class="checkerboard flex items-center justify-center text-3xl border-r border-white/20">🤖</div>
+              <div class="checkerboard flex items-center justify-center text-3xl border-r border-white/20">🛸</div>
+              <div class="checkerboard flex items-center justify-center text-3xl">💻</div>
+            </div>
+            <div class="p-5">
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white font-bold font-headline text-lg">CC</div>
+                  <div>
+                    <h3 class="font-headline font-bold text-lg leading-tight">CyberCortex</h3>
+                    <div class="flex items-center gap-1 text-amber-500 text-sm">
+                      <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="font-bold text-on-surface">4.7</span>
+                      <span class="text-on-surface-variant">(89 reviews)</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Open</span>
+              </div>
+              <p class="text-sm text-on-surface-variant mb-4 leading-relaxed">Mech, robot and sci-fi character designs. Pixel-perfect sprite sheets with multiple animation states.</p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Character</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Mech</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Animation</span>
+              </div>
+              <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                <div>
+                  <span class="text-xs text-on-surface-variant">Starting from</span>
+                  <div class="font-headline font-bold text-xl text-primary">₩35,000</div>
+                </div>
+                <button class="px-5 py-2.5 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all">View Service</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Artist Card 5 -->
+          <div class="group bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300">
+            <div class="grid grid-cols-3 h-36">
+              <div class="checkerboard flex items-center justify-center text-3xl border-r border-white/20">🏖️</div>
+              <div class="checkerboard flex items-center justify-center text-3xl border-r border-white/20">🌅</div>
+              <div class="checkerboard flex items-center justify-center text-3xl">🌊</div>
+            </div>
+            <div class="p-5">
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center text-white font-bold font-headline text-lg">LS</div>
+                  <div>
+                    <h3 class="font-headline font-bold text-lg leading-tight">LoFiSprite</h3>
+                    <div class="flex items-center gap-1 text-amber-500 text-sm">
+                      <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="font-bold text-on-surface">4.6</span>
+                      <span class="text-on-surface-variant">(47 reviews)</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Open</span>
+              </div>
+              <p class="text-sm text-on-surface-variant mb-4 leading-relaxed">Cozy, lo-fi aesthetic scenes and landscapes. Perfect for visual novels and chill indie games.</p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Landscape</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Cozy</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Scene</span>
+              </div>
+              <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                <div>
+                  <span class="text-xs text-on-surface-variant">Starting from</span>
+                  <div class="font-headline font-bold text-xl text-primary">₩20,000</div>
+                </div>
+                <button class="px-5 py-2.5 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all">View Service</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Artist Card 6 -->
+          <div class="group bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300">
+            <div class="grid grid-cols-3 h-36">
+              <div class="checkerboard flex items-center justify-center text-3xl border-r border-white/20">💀</div>
+              <div class="checkerboard flex items-center justify-center text-3xl border-r border-white/20">🗡️</div>
+              <div class="checkerboard flex items-center justify-center text-3xl">🏚️</div>
+            </div>
+            <div class="p-5">
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center text-white font-bold font-headline text-lg">GM</div>
+                  <div>
+                    <h3 class="font-headline font-bold text-lg leading-tight">GrimMapper</h3>
+                    <div class="flex items-center gap-1 text-amber-500 text-sm">
+                      <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="font-bold text-on-surface">4.8</span>
+                      <span class="text-on-surface-variant">(76 reviews)</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Open</span>
+              </div>
+              <p class="text-sm text-on-surface-variant mb-4 leading-relaxed">Dark fantasy tilesets and dungeon maps. Roguelike-ready tile packs with wall, floor, and prop variants.</p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Tileset</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Dungeon</span>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">Dark Fantasy</span>
+              </div>
+              <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                <div>
+                  <span class="text-xs text-on-surface-variant">Starting from</span>
+                  <div class="font-headline font-bold text-xl text-primary">₩50,000</div>
+                </div>
+                <button class="px-5 py-2.5 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all">View Service</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Load More -->
+        <div class="flex justify-center mt-12">
+          <button class="flex items-center gap-2 px-10 py-4 border-2 border-primary text-primary rounded-xl font-bold hover:bg-primary hover:text-white transition-all active:scale-95 font-headline">
+            <span class="material-symbols-outlined">expand_more</span>
+            Load More Artists
+          </button>
+        </div>
+      </div>
+
+      <!-- ===== OPEN REQUESTS TAB ===== -->
+      <div id="tab-requests">
+
+        <!-- Filter -->
+        <div class="flex flex-wrap items-center gap-3 mb-8">
+          <div class="flex flex-wrap gap-2">
+            <button class="px-4 py-2 bg-primary text-on-primary rounded-full text-sm font-bold">All</button>
+            <button class="px-4 py-2 bg-white border border-slate-200 text-on-surface-variant hover:border-primary hover:text-primary rounded-full text-sm font-bold transition-all">Character</button>
+            <button class="px-4 py-2 bg-white border border-slate-200 text-on-surface-variant hover:border-primary hover:text-primary rounded-full text-sm font-bold transition-all">Environment</button>
+            <button class="px-4 py-2 bg-white border border-slate-200 text-on-surface-variant hover:border-primary hover:text-primary rounded-full text-sm font-bold transition-all">Game Asset</button>
+            <button class="px-4 py-2 bg-white border border-slate-200 text-on-surface-variant hover:border-primary hover:text-primary rounded-full text-sm font-bold transition-all">Portrait</button>
+          </div>
+          <div class="ml-auto relative">
+            <select class="appearance-none bg-surface-container-low border border-slate-200 rounded-xl px-5 py-2.5 pr-10 text-sm font-bold text-on-surface focus:ring-2 focus:ring-primary/20 cursor-pointer">
+              <option>Latest</option>
+              <option>Budget: High to Low</option>
+              <option>Deadline: Soonest</option>
+              <option>Most Offers</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-sm">expand_more</span>
+          </div>
+        </div>
+
+        <!-- Request List -->
+        <div class="space-y-4">
+
+          <!-- Request Card 1 -->
+          <div class="group bg-white rounded-2xl border border-slate-100 p-6 hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300">
+            <div class="flex flex-col md:flex-row md:items-start gap-5">
+              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold font-headline text-xl flex-shrink-0">G</div>
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-start justify-between gap-3 mb-2">
+                  <div>
+                    <h3 class="font-headline font-bold text-xl">RPG Main Character Sprite Sheet</h3>
+                    <p class="text-sm text-on-surface-variant">by <span class="font-bold text-primary">@GameDev_Kim</span> · 2 hours ago</p>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <span class="px-3 py-1.5 bg-amber-100 text-amber-700 text-sm font-bold rounded-lg">₩80,000 ~ ₩120,000</span>
+                    <span class="px-3 py-1.5 bg-red-100 text-red-600 text-sm font-bold rounded-lg flex items-center gap-1">
+                      <span class="material-symbols-outlined text-sm">schedule</span>
+                      D-7
+                    </span>
+                  </div>
+                </div>
+                <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Looking for a 16×16 pixel art character with idle, walk, run, jump, attack animations. Fantasy knight theme. Must include full spritesheet + individual frames. Commercial license required.</p>
+                <div class="flex flex-wrap items-center gap-3">
+                  <div class="flex gap-1.5">
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#character</span>
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#animation</span>
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#fantasy</span>
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#commercial</span>
+                  </div>
+                  <div class="ml-auto flex items-center gap-4 text-on-surface-variant text-sm">
+                    <div class="flex items-center gap-1.5">
+                      <span class="material-symbols-outlined text-base">group</span>
+                      <span class="font-bold">7 offers</span>
+                    </div>
+                    <button class="px-5 py-2 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all">Send Offer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Request Card 2 -->
+          <div class="group bg-white rounded-2xl border border-slate-100 p-6 hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300">
+            <div class="flex flex-col md:flex-row md:items-start gap-5">
+              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold font-headline text-xl flex-shrink-0">I</div>
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-start justify-between gap-3 mb-2">
+                  <div>
+                    <h3 class="font-headline font-bold text-xl">Indie Studio Logo (Pixel Art Style)</h3>
+                    <p class="text-sm text-on-surface-variant">by <span class="font-bold text-primary">@IndieStudio_Park</span> · 5 hours ago</p>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <span class="px-3 py-1.5 bg-amber-100 text-amber-700 text-sm font-bold rounded-lg">₩30,000 ~ ₩50,000</span>
+                    <span class="px-3 py-1.5 bg-orange-100 text-orange-600 text-sm font-bold rounded-lg flex items-center gap-1">
+                      <span class="material-symbols-outlined text-sm">schedule</span>
+                      D-14
+                    </span>
+                  </div>
+                </div>
+                <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Need a pixel art logo for our small indie studio. Studio name is "Moonbit Games". Wants a small moon + retro bit aesthetic. Provide PNG + source file.</p>
+                <div class="flex flex-wrap items-center gap-3">
+                  <div class="flex gap-1.5">
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#logo</span>
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#branding</span>
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#retro</span>
+                  </div>
+                  <div class="ml-auto flex items-center gap-4 text-on-surface-variant text-sm">
+                    <div class="flex items-center gap-1.5">
+                      <span class="material-symbols-outlined text-base">group</span>
+                      <span class="font-bold">3 offers</span>
+                    </div>
+                    <button class="px-5 py-2 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all">Send Offer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Request Card 3 -->
+          <div class="group bg-white rounded-2xl border border-slate-100 p-6 hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300">
+            <div class="flex flex-col md:flex-row md:items-start gap-5">
+              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-white font-bold font-headline text-xl flex-shrink-0">L</div>
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-start justify-between gap-3 mb-2">
+                  <div>
+                    <h3 class="font-headline font-bold text-xl">16×16 Dungeon Tileset (Roguelike)</h3>
+                    <p class="text-sm text-on-surface-variant">by <span class="font-bold text-primary">@LevelDesigner_Lee</span> · 1 day ago</p>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <span class="px-3 py-1.5 bg-amber-100 text-amber-700 text-sm font-bold rounded-lg">₩150,000 ~ ₩200,000</span>
+                    <span class="px-3 py-1.5 bg-slate-100 text-slate-500 text-sm font-bold rounded-lg flex items-center gap-1">
+                      <span class="material-symbols-outlined text-sm">schedule</span>
+                      D-30
+                    </span>
+                  </div>
+                </div>
+                <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Full dungeon tile pack for a roguelike game. Need floors, walls (8-directional), doors, chests, traps, and misc decor. Dark stone aesthetic. Auto-tiling friendly format.</p>
+                <div class="flex flex-wrap items-center gap-3">
+                  <div class="flex gap-1.5">
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#tileset</span>
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#dungeon</span>
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#roguelike</span>
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#game</span>
+                  </div>
+                  <div class="ml-auto flex items-center gap-4 text-on-surface-variant text-sm">
+                    <div class="flex items-center gap-1.5">
+                      <span class="material-symbols-outlined text-base">group</span>
+                      <span class="font-bold">12 offers</span>
+                    </div>
+                    <button class="px-5 py-2 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all">Send Offer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Request Card 4 -->
+          <div class="group bg-white rounded-2xl border border-slate-100 p-6 hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300">
+            <div class="flex flex-col md:flex-row md:items-start gap-5">
+              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-violet-400 to-purple-600 flex items-center justify-center text-white font-bold font-headline text-xl flex-shrink-0">N</div>
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-start justify-between gap-3 mb-2">
+                  <div>
+                    <h3 class="font-headline font-bold text-xl">Pixel Art Portrait — OC Commission</h3>
+                    <p class="text-sm text-on-surface-variant">by <span class="font-bold text-primary">@NovelWriter_Choi</span> · 2 days ago</p>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <span class="px-3 py-1.5 bg-amber-100 text-amber-700 text-sm font-bold rounded-lg">₩15,000 ~ ₩25,000</span>
+                    <span class="px-3 py-1.5 bg-slate-100 text-slate-500 text-sm font-bold rounded-lg flex items-center gap-1">
+                      <span class="material-symbols-outlined text-sm">schedule</span>
+                      D-21
+                    </span>
+                  </div>
+                </div>
+                <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Want a bust portrait of my OC for a web novel profile image. Character is a female elf mage with silver hair and blue robes. Reference image provided. Personal use only.</p>
+                <div class="flex flex-wrap items-center gap-3">
+                  <div class="flex gap-1.5">
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#portrait</span>
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#character</span>
+                    <span class="px-2.5 py-1 bg-surface-container-low text-on-surface-variant text-xs rounded-full font-medium">#OC</span>
+                  </div>
+                  <div class="ml-auto flex items-center gap-4 text-on-surface-variant text-sm">
+                    <div class="flex items-center gap-1.5">
+                      <span class="material-symbols-outlined text-base">group</span>
+                      <span class="font-bold">5 offers</span>
+                    </div>
+                    <button class="px-5 py-2 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all">Send Offer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Load More -->
+        <div class="flex justify-center mt-12">
+          <button class="flex items-center gap-2 px-10 py-4 border-2 border-primary text-primary rounded-xl font-bold hover:bg-primary hover:text-white transition-all active:scale-95 font-headline">
+            <span class="material-symbols-outlined">expand_more</span>
+            Load More Requests
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function switchTab(tab) {
+      const tabArtists = document.getElementById('tab-artists');
+      const tabRequests = document.getElementById('tab-requests');
+      const btnArtists = document.getElementById('tabBtn-artists');
+      const btnRequests = document.getElementById('tabBtn-requests');
+
+      if (tab === 'artists') {
+        tabArtists.style.display = 'block';
+        tabRequests.style.display = 'none';
+        btnArtists.className = 'px-8 py-2.5 rounded-lg font-bold font-headline text-sm bg-white shadow-sm text-primary transition-all';
+        btnRequests.className = 'px-8 py-2.5 rounded-lg font-bold font-headline text-sm text-on-surface-variant hover:text-on-surface transition-all';
+      } else {
+        tabArtists.style.display = 'none';
+        tabRequests.style.display = 'block';
+        btnArtists.className = 'px-8 py-2.5 rounded-lg font-bold font-headline text-sm text-on-surface-variant hover:text-on-surface transition-all';
+        btnRequests.className = 'px-8 py-2.5 rounded-lg font-bold font-headline text-sm bg-white shadow-sm text-primary transition-all';
+      }
+    }
+  </script>
+
+</body>
+</html>
