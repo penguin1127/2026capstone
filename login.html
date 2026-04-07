@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Login | PixelHub</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "background": "#0d1117", "surface": "#161b22",
+            "surface-container-low": "#1c2128", "surface-container": "#21262d",
+            "surface-container-high": "#292f38",
+            "on-surface": "#e6edf3", "on-surface-variant": "#7d8590",
+            "primary": "#2f81f7", "on-primary": "#ffffff",
+            "accent": "#f0883e",
+            "outline": "#30363d", "outline-variant": "#21262d",
+            "error": "#f85149",
+          },
+          fontFamily: { "headline": ["Space Grotesk"], "body": ["Manrope"] },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .pixel-bg {
+      background-color: #0f0e1a;
+      background-image: radial-gradient(circle, #2f81f7 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+  </style>
+</head>
+<body class="bg-background font-body text-on-surface antialiased min-h-screen flex items-center justify-center relative overflow-hidden">
+
+  <div class="pixel-bg absolute inset-0 opacity-20 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-background pointer-events-none"></div>
+
+  <div class="relative z-10 w-full max-w-md mx-4">
+    <div class="text-center mb-8">
+      <a href="main.html" class="inline-flex items-center gap-2 text-3xl font-bold text-primary tracking-tighter font-headline hover:opacity-80 transition-opacity">
+        <span class="material-symbols-outlined text-3xl">grid_view</span>PixelHub
+      </a>
+      <p class="text-on-surface-variant text-sm mt-2">픽셀 아트 크리에이터 커뮤니티</p>
+    </div>
+
+    <div class="bg-surface-container border border-outline-variant rounded-2xl p-8 shadow-2xl shadow-black/40">
+      <h1 class="text-2xl font-bold font-headline tracking-tight mb-1">로그인</h1>
+      <p class="text-sm text-on-surface-variant mb-8">계속하려면 로그인하세요.</p>
+
+      <form class="space-y-5" onsubmit="return false;">
+        <div>
+          <label class="block text-sm font-bold mb-1.5">이메일</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">mail</span>
+            <input type="email" placeholder="example@pixelhub.io"
+              class="w-full pl-10 pr-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm text-on-surface placeholder:text-on-surface-variant focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all outline-none"/>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-bold mb-1.5">비밀번호</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">lock</span>
+            <input id="passwordInput" type="password" placeholder="비밀번호 입력"
+              class="w-full pl-10 pr-12 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm text-on-surface placeholder:text-on-surface-variant focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all outline-none"/>
+            <button type="button" onclick="togglePassword()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors">
+              <span id="eyeIcon" class="material-symbols-outlined text-lg">visibility</span>
+            </button>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="rounded accent-primary w-4 h-4"/>
+            <span class="text-sm text-on-surface-variant">로그인 상태 유지</span>
+          </label>
+          <a href="#" class="text-sm font-bold text-primary hover:underline">비밀번호 찾기</a>
+        </div>
+        <button type="submit" class="w-full py-3.5 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/25 hover:bg-primary/80 active:scale-[0.98] transition-all font-headline text-base">
+          로그인
+        </button>
+      </form>
+
+      <div class="flex items-center gap-4 my-6">
+        <div class="flex-1 h-px bg-outline-variant"></div>
+        <span class="text-xs text-on-surface-variant font-bold">또는</span>
+        <div class="flex-1 h-px bg-outline-variant"></div>
+      </div>
+
+      <button disabled class="w-full flex items-center justify-center gap-3 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm font-bold text-on-surface-variant cursor-not-allowed opacity-50">
+        <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Google로 계속하기
+        <span class="ml-auto text-xs bg-surface-container px-2 py-0.5 rounded-full">준비 중</span>
+      </button>
+
+      <p class="text-center text-sm text-on-surface-variant mt-6">
+        계정이 없으신가요?<a href="signup.html" class="font-bold text-primary hover:underline ml-1">회원가입</a>
+      </p>
+    </div>
+
+    <p class="text-center mt-6">
+      <a href="main.html" class="flex items-center justify-center gap-1 text-sm text-on-surface-variant hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-base">arrow_back</span>메인으로 돌아가기
+      </a>
+    </p>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const input = document.getElementById('passwordInput');
+      const icon = document.getElementById('eyeIcon');
+      input.type = input.type === 'password' ? 'text' : 'password';
+      icon.textContent = input.type === 'password' ? 'visibility' : 'visibility_off';
+    }
+  </script>
+</body>
+</html>

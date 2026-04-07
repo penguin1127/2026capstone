@@ -1,0 +1,523 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Editor | PixelHub</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "background": "#0d1117", "surface": "#161b22",
+            "surface-container-low": "#1c2128", "surface-container": "#21262d",
+            "surface-container-high": "#292f38", "surface-container-highest": "#30363d",
+            "on-surface": "#e6edf3", "on-surface-variant": "#7d8590",
+            "primary": "#2f81f7", "on-primary": "#ffffff",
+            "accent": "#f0883e",
+            "outline": "#30363d", "outline-variant": "#21262d",
+            "error": "#f85149",
+          },
+          fontFamily: { "headline": ["Space Grotesk"], "body": ["Manrope"] },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <style>
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    /* Checkerboard transparency pattern */
+    .canvas-bg {
+      background-color: #1c2128;
+      background-image:
+        linear-gradient(45deg, #21262d 25%, transparent 25%),
+        linear-gradient(-45deg, #21262d 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #21262d 75%),
+        linear-gradient(-45deg, transparent 75%, #21262d 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+    }
+    /* Pixel grid overlay on canvas */
+    .pixel-grid-overlay {
+      background-image:
+        linear-gradient(rgba(100,100,100,0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100,100,100,0.15) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    /* Tool button active state */
+    .tool-btn {
+      @apply w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all cursor-pointer select-none;
+    }
+    .tool-btn.active {
+      @apply bg-primary/15 text-primary;
+    }
+    /* Color swatch */
+    .color-swatch {
+      @apply w-7 h-7 rounded cursor-pointer border-2 border-transparent hover:border-primary transition-all;
+    }
+    .color-swatch.active {
+      @apply border-primary scale-110;
+    }
+    /* Panel sections */
+    .panel-section {
+      @apply border-b border-outline-variant pb-3 mb-3;
+    }
+    .panel-title {
+      @apply text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2 px-3;
+    }
+    /* Layer item */
+    .layer-item {
+      @apply flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer hover:bg-surface-container transition-all text-sm;
+    }
+    .layer-item.active {
+      @apply bg-primary/10 text-primary font-bold;
+    }
+    /* Scrollable panels */
+    .panel-scroll {
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #21262d transparent;
+    }
+  </style>
+</head>
+<body class="bg-background font-body text-on-surface h-full flex flex-col antialiased">
+
+  <!-- ===== TOP BAR ===== -->
+  <header class="h-12 bg-surface border-b border-outline-variant flex items-center justify-between px-3 flex-shrink-0 z-10">
+
+    <!-- Left: Logo + File Info -->
+    <div class="flex items-center gap-4">
+      <a href="freegallery.html" class="flex items-center gap-1.5 text-primary font-bold font-headline text-lg tracking-tighter hover:opacity-80 transition-opacity">
+        <span class="material-symbols-outlined text-lg">grid_view</span>
+        PixelHub
+      </a>
+      <div class="w-px h-5 bg-outline-variant"></div>
+      <div class="flex items-center gap-1">
+        <span class="material-symbols-outlined text-on-surface-variant text-base">description</span>
+        <span class="text-sm font-bold text-on-surface font-headline">Untitled Project</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-400 ml-1" title="Unsaved changes"></span>
+      </div>
+    </div>
+
+    <!-- Center: Edit Actions -->
+    <div class="flex items-center gap-1">
+      <button title="Undo (Ctrl+Z)" class="tool-btn">
+        <span class="material-symbols-outlined text-lg">undo</span>
+      </button>
+      <button title="Redo (Ctrl+Y)" class="tool-btn">
+        <span class="material-symbols-outlined text-lg">redo</span>
+      </button>
+      <div class="w-px h-5 bg-outline-variant mx-1"></div>
+      <button title="Zoom In" class="tool-btn">
+        <span class="material-symbols-outlined text-lg">zoom_in</span>
+      </button>
+      <button title="Zoom Out" class="tool-btn">
+        <span class="material-symbols-outlined text-lg">zoom_out</span>
+      </button>
+      <button title="Fit to Screen" class="tool-btn">
+        <span class="material-symbols-outlined text-lg">fit_screen</span>
+      </button>
+      <div class="w-px h-5 bg-outline-variant mx-1"></div>
+      <!-- Canvas Size Display -->
+      <div class="flex items-center gap-1.5 px-3 py-1 bg-surface-container-low rounded-lg">
+        <span class="text-xs font-bold text-on-surface-variant font-headline">32 × 32</span>
+        <span class="material-symbols-outlined text-on-surface-variant text-sm">expand_more</span>
+      </div>
+    </div>
+
+    <!-- Right: Save / Export / Share -->
+    <div class="flex items-center gap-2">
+      <button class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-bold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-all">
+        <span class="material-symbols-outlined text-base">save</span>
+        Save
+      </button>
+      <!-- Export Dropdown -->
+      <div class="relative group">
+        <button class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-bold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-all">
+          <span class="material-symbols-outlined text-base">file_export</span>
+          Export
+          <span class="material-symbols-outlined text-sm">expand_more</span>
+        </button>
+        <div class="absolute right-0 top-full mt-1 w-48 bg-surface-container rounded-xl shadow-xl border border-outline-variant py-1 hidden group-hover:block z-50">
+          <button class="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm hover:bg-surface-container-low transition-all text-left">
+            <span class="material-symbols-outlined text-base text-on-surface-variant">image</span>
+            Export as PNG
+          </button>
+          <button class="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm hover:bg-surface-container-low transition-all text-left">
+            <span class="material-symbols-outlined text-base text-on-surface-variant">grid_on</span>
+            Export Spritesheet
+          </button>
+          <div class="border-t border-outline-variant my-1"></div>
+          <button class="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm hover:bg-surface-container-low transition-all text-left">
+            <span class="material-symbols-outlined text-base text-on-surface-variant">download</span>
+            Download .pixhub
+          </button>
+        </div>
+      </div>
+      <div class="w-px h-5 bg-outline-variant"></div>
+      <button class="flex items-center gap-1.5 px-4 py-1.5 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 active:scale-95 transition-all shadow-sm shadow-primary/20">
+        <span class="material-symbols-outlined text-base">share</span>
+        Share
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== MAIN EDITOR LAYOUT ===== -->
+  <div class="flex flex-1 min-h-0">
+
+    <!-- ===== LEFT TOOLBAR ===== -->
+    <aside class="w-14 bg-surface border-r border-outline-variant flex flex-col items-center py-3 gap-1 flex-shrink-0">
+
+      <!-- Draw Tools -->
+      <div class="flex flex-col items-center gap-1 panel-section w-full px-2">
+        <button class="tool-btn active" title="Pencil (P)">
+          <span class="material-symbols-outlined text-lg">edit</span>
+        </button>
+        <button class="tool-btn" title="Eraser (E)">
+          <span class="material-symbols-outlined text-lg">ink_eraser</span>
+        </button>
+        <button class="tool-btn" title="Fill Bucket (G)">
+          <span class="material-symbols-outlined text-lg">format_color_fill</span>
+        </button>
+        <button class="tool-btn" title="Eyedropper (I)">
+          <span class="material-symbols-outlined text-lg">colorize</span>
+        </button>
+      </div>
+
+      <!-- Selection Tools -->
+      <div class="flex flex-col items-center gap-1 panel-section w-full px-2">
+        <button class="tool-btn" title="Marquee Select (M)">
+          <span class="material-symbols-outlined text-lg">select_all</span>
+        </button>
+        <button class="tool-btn" title="Lasso Select (L)">
+          <span class="material-symbols-outlined text-lg">gesture</span>
+        </button>
+        <button class="tool-btn" title="Move (V)">
+          <span class="material-symbols-outlined text-lg">open_with</span>
+        </button>
+      </div>
+
+      <!-- Shape Tools -->
+      <div class="flex flex-col items-center gap-1 panel-section w-full px-2">
+        <button class="tool-btn" title="Line (L)">
+          <span class="material-symbols-outlined text-lg">horizontal_rule</span>
+        </button>
+        <button class="tool-btn" title="Rectangle (R)">
+          <span class="material-symbols-outlined text-lg">rectangle</span>
+        </button>
+        <button class="tool-btn" title="Ellipse (O)">
+          <span class="material-symbols-outlined text-lg">circle</span>
+        </button>
+      </div>
+
+      <!-- View Tools -->
+      <div class="flex flex-col items-center gap-1 w-full px-2 mt-auto">
+        <button class="tool-btn" title="Zoom (Z)">
+          <span class="material-symbols-outlined text-lg">search</span>
+        </button>
+        <button class="tool-btn" title="Pan (Space)">
+          <span class="material-symbols-outlined text-lg">pan_tool</span>
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- ===== CANVAS AREA ===== -->
+    <main class="flex-1 canvas-bg flex items-center justify-center overflow-hidden relative">
+
+      <!-- Canvas wrapper with grid overlay -->
+      <div class="relative shadow-2xl" style="width: 640px; height: 640px;">
+        <!-- Pixel grid overlay -->
+        <div class="absolute inset-0 pixel-grid-overlay pointer-events-none z-10"></div>
+        <!-- Actual canvas -->
+        <canvas
+          id="pixelCanvas"
+          width="32"
+          height="32"
+          style="width: 640px; height: 640px; image-rendering: pixelated; image-rendering: crisp-edges; cursor: crosshair;"
+          class="block"
+        ></canvas>
+      </div>
+
+      <!-- Zoom Controls (floating, bottom center) -->
+      <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-surface-container rounded-xl px-3 py-1.5 shadow-lg border border-outline-variant">
+        <button class="tool-btn w-7 h-7" onclick="changeZoom(-1)">
+          <span class="material-symbols-outlined text-sm">remove</span>
+        </button>
+        <span id="zoomLabel" class="text-xs font-bold font-headline text-on-surface w-12 text-center">x20</span>
+        <button class="tool-btn w-7 h-7" onclick="changeZoom(1)">
+          <span class="material-symbols-outlined text-sm">add</span>
+        </button>
+      </div>
+
+      <!-- Cursor position (floating, bottom right) -->
+      <div class="absolute bottom-4 right-4 bg-surface-container/90 rounded-lg px-3 py-1.5 shadow border border-outline-variant text-xs font-bold font-headline text-on-surface-variant">
+        <span id="cursorPos">x: — y: —</span>
+      </div>
+
+    </main>
+
+    <!-- ===== RIGHT PANEL ===== -->
+    <aside class="w-56 bg-surface border-l border-outline-variant flex flex-col flex-shrink-0 panel-scroll">
+
+      <!-- Color Picker Section -->
+      <div class="p-3 border-b border-outline-variant">
+        <div class="panel-title">Color</div>
+        <!-- Current Colors (Fore/Back) -->
+        <div class="flex items-center gap-3 mb-3 px-1">
+          <div class="relative">
+            <div id="fgColor" class="w-10 h-10 rounded-lg border-2 border-outline cursor-pointer shadow-sm" style="background:#2f81f7;" title="Foreground color"></div>
+            <div class="absolute -bottom-1.5 -right-1.5 w-7 h-7 rounded-lg border-2 border-outline bg-surface-container shadow-sm" title="Background color"></div>
+          </div>
+          <div class="flex-1">
+            <div class="text-xs text-on-surface-variant mb-1">HEX</div>
+            <input type="text" value="#2f81f7" class="w-full text-sm font-bold font-headline bg-surface-container-low border-none rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-primary/20"/>
+          </div>
+        </div>
+        <!-- RGB Sliders -->
+        <div class="space-y-1.5 px-1">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-red-500 w-3">R</span>
+            <input type="range" min="0" max="255" value="107" class="flex-1 h-1.5 accent-red-500 cursor-pointer"/>
+            <span class="text-xs font-bold font-headline w-7 text-right text-on-surface-variant">107</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-emerald-600 w-3">G</span>
+            <input type="range" min="0" max="255" value="56" class="flex-1 h-1.5 accent-emerald-500 cursor-pointer"/>
+            <span class="text-xs font-bold font-headline w-7 text-right text-on-surface-variant">56</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-blue-500 w-3">B</span>
+            <input type="range" min="0" max="255" value="212" class="flex-1 h-1.5 accent-blue-500 cursor-pointer"/>
+            <span class="text-xs font-bold font-headline w-7 text-right text-on-surface-variant">212</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Palette Section -->
+      <div class="p-3 border-b border-outline-variant">
+        <div class="flex items-center justify-between mb-2">
+          <div class="panel-title mb-0">Palette</div>
+          <div class="flex gap-1">
+            <button class="tool-btn w-6 h-6" title="Add color">
+              <span class="material-symbols-outlined text-xs">add</span>
+            </button>
+            <button class="tool-btn w-6 h-6" title="Import palette">
+              <span class="material-symbols-outlined text-xs">upload</span>
+            </button>
+          </div>
+        </div>
+        <!-- Lospec-style palette swatches -->
+        <div class="grid grid-cols-7 gap-1 px-1">
+          <div class="color-swatch active" style="background:#2f81f7;"></div>
+          <div class="color-swatch" style="background:#818cf8;"></div>
+          <div class="color-swatch" style="background:#c0c1ff;"></div>
+          <div class="color-swatch" style="background:#e9ddff;"></div>
+          <div class="color-swatch" style="background:#191c1e;"></div>
+          <div class="color-swatch" style="background:#494454;"></div>
+          <div class="color-swatch" style="background:#7b7486;"></div>
+          <div class="color-swatch" style="background:#f7f9fb;"></div>
+          <div class="color-swatch" style="background:#ffffff;"></div>
+          <div class="color-swatch" style="background:#ba1a1a;"></div>
+          <div class="color-swatch" style="background:#ffdad6;"></div>
+          <div class="color-swatch" style="background:#16a34a;"></div>
+          <div class="color-swatch" style="background:#d1fae5;"></div>
+          <div class="color-swatch" style="background:#f59e0b;"></div>
+          <div class="color-swatch" style="background:#fef3c7;"></div>
+          <div class="color-swatch" style="background:#06b6d4;"></div>
+          <div class="color-swatch" style="background:#cffafe;"></div>
+          <div class="color-swatch" style="background:#ec4899;"></div>
+          <div class="color-swatch" style="background:#fce7f3;"></div>
+          <div class="color-swatch" style="background:#78350f;"></div>
+          <div class="color-swatch" style="background:#d97706;"></div>
+        </div>
+        <button class="mt-2 w-full text-xs text-primary font-bold hover:underline text-left px-1">Browse Lospec palettes…</button>
+      </div>
+
+      <!-- Tool Options Section -->
+      <div class="p-3 border-b border-outline-variant">
+        <div class="panel-title">Tool Options</div>
+        <div class="space-y-3 px-1">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs text-on-surface-variant">Brush Size</span>
+              <span class="text-xs font-bold font-headline">1px</span>
+            </div>
+            <input type="range" min="1" max="16" value="1" class="w-full h-1.5 accent-primary cursor-pointer"/>
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs text-on-surface-variant">Opacity</span>
+              <span class="text-xs font-bold font-headline">100%</span>
+            </div>
+            <input type="range" min="0" max="100" value="100" class="w-full h-1.5 accent-primary cursor-pointer"/>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-on-surface-variant">Pixel Perfect</span>
+            <button class="w-10 h-5 bg-primary rounded-full relative transition-all">
+              <span class="absolute right-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layers Section -->
+      <div class="p-3 flex-1">
+        <div class="flex items-center justify-between mb-2">
+          <div class="panel-title mb-0">Layers</div>
+          <div class="flex gap-1">
+            <button class="tool-btn w-6 h-6" title="Add layer">
+              <span class="material-symbols-outlined text-xs">add</span>
+            </button>
+            <button class="tool-btn w-6 h-6" title="Delete layer">
+              <span class="material-symbols-outlined text-xs">delete</span>
+            </button>
+          </div>
+        </div>
+        <div class="space-y-0.5">
+          <div class="layer-item active">
+            <span class="material-symbols-outlined text-sm">visibility</span>
+            <div class="w-7 h-7 rounded border border-outline-variant checkerboard flex-shrink-0" style="background-size:4px 4px;background-position:0 0,0 2px,2px -2px,-2px 0;"></div>
+            <span class="text-sm truncate flex-1">Layer 3</span>
+          </div>
+          <div class="layer-item">
+            <span class="material-symbols-outlined text-sm">visibility</span>
+            <div class="w-7 h-7 rounded border border-outline-variant" style="background:#2f81f7;"></div>
+            <span class="text-sm truncate flex-1 text-on-surface-variant">Layer 2</span>
+          </div>
+          <div class="layer-item">
+            <span class="material-symbols-outlined text-sm">visibility</span>
+            <div class="w-7 h-7 rounded border border-outline-variant" style="background:#818cf8;"></div>
+            <span class="text-sm truncate flex-1 text-on-surface-variant">Layer 1</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom: Animation Frames (collapsed) -->
+      <div class="p-3 border-t border-outline-variant bg-surface-container">
+        <button class="w-full flex items-center justify-between text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm">animation</span>
+            Animation (1 frame)
+          </div>
+          <span class="material-symbols-outlined text-sm">expand_more</span>
+        </button>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- ===== BOTTOM STATUS BAR ===== -->
+  <footer class="h-7 bg-surface border-t border-outline-variant flex items-center px-4 gap-6 text-xs font-bold font-headline text-on-surface-variant flex-shrink-0">
+    <span>Canvas: 32 × 32</span>
+    <span class="w-px h-3 bg-outline-variant"></span>
+    <span>Zoom: 2000%</span>
+    <span class="w-px h-3 bg-outline-variant"></span>
+    <span id="statusPos">Cursor: —</span>
+    <span class="w-px h-3 bg-outline-variant"></span>
+    <span>Tool: Pencil</span>
+    <span class="w-px h-3 bg-outline-variant"></span>
+    <span>Active Layer: Layer 3</span>
+    <div class="ml-auto flex items-center gap-3">
+      <span>3 layers</span>
+      <span class="w-px h-3 bg-outline-variant"></span>
+      <span class="text-amber-500">● Unsaved</span>
+    </div>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('pixelCanvas');
+    const ctx = canvas.getContext('2d');
+    const W = 32, H = 32;
+    let zoom = 20;
+    let isDrawing = false;
+    let currentColor = '#2f81f7';
+
+    // Init canvas with white
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, W, H);
+
+    function getPixelCoords(e) {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = W / rect.width;
+      const scaleY = H / rect.height;
+      return {
+        x: Math.floor((e.clientX - rect.left) * scaleX),
+        y: Math.floor((e.clientY - rect.top) * scaleY)
+      };
+    }
+
+    function drawPixel(e) {
+      const { x, y } = getPixelCoords(e);
+      if (x < 0 || x >= W || y < 0 || y >= H) return;
+      ctx.fillStyle = currentColor;
+      ctx.fillRect(x, y, 1, 1);
+      document.getElementById('cursorPos').textContent = `x: ${x}  y: ${y}`;
+      document.getElementById('statusPos').textContent = `Cursor: ${x}, ${y}`;
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+      isDrawing = true;
+      drawPixel(e);
+    });
+    canvas.addEventListener('mousemove', (e) => {
+      const { x, y } = getPixelCoords(e);
+      document.getElementById('cursorPos').textContent = `x: ${x}  y: ${y}`;
+      document.getElementById('statusPos').textContent = `Cursor: ${x}, ${y}`;
+      if (isDrawing) drawPixel(e);
+    });
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('mouseleave', () => {
+      isDrawing = false;
+      document.getElementById('cursorPos').textContent = 'x: —  y: —';
+      document.getElementById('statusPos').textContent = 'Cursor: —';
+    });
+
+    // Color swatches
+    document.querySelectorAll('.color-swatch').forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+        swatch.classList.add('active');
+        currentColor = swatch.style.background;
+        document.getElementById('fgColor').style.background = currentColor;
+      });
+    });
+
+    // Zoom control
+    const zoomLevels = [1,2,4,8,10,16,20,32,64];
+    let zoomIdx = 6; // x20
+    function changeZoom(dir) {
+      zoomIdx = Math.max(0, Math.min(zoomLevels.length - 1, zoomIdx + dir));
+      zoom = zoomLevels[zoomIdx];
+      const px = zoom * W;
+      canvas.style.width = px + 'px';
+      canvas.style.height = px + 'px';
+      const wrapper = canvas.parentElement;
+      wrapper.style.width = px + 'px';
+      wrapper.style.height = px + 'px';
+      document.getElementById('zoomLabel').textContent = 'x' + zoom;
+    }
+
+    // Tool buttons active state
+    document.querySelectorAll('.tool-btn').forEach(btn => {
+      if (btn.closest('header') || btn.closest('footer')) return;
+      btn.addEventListener('click', () => {
+        const toolbar = btn.closest('aside');
+        if (!toolbar || toolbar.classList.contains('w-56')) return;
+        toolbar.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>

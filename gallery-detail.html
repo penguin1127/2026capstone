@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Neon Rain — Gallery | PixelHub</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "background": "#0d1117", "surface": "#161b22",
+            "surface-container-low": "#1c2128", "surface-container": "#21262d",
+            "surface-container-high": "#292f38", "surface-container-highest": "#30363d",
+            "on-surface": "#e6edf3", "on-surface-variant": "#7d8590",
+            "primary": "#2f81f7", "on-primary": "#ffffff",
+            "accent": "#f0883e",
+            "outline": "#30363d", "outline-variant": "#21262d",
+            "error": "#f85149",
+          },
+          fontFamily: { "headline": ["Space Grotesk"], "body": ["Manrope"] },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .checkerboard {
+      background-color: #1c2128;
+      background-image: linear-gradient(45deg,#21262d 25%,transparent 25%),linear-gradient(-45deg,#21262d 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#21262d 75%),linear-gradient(-45deg,transparent 75%,#21262d 75%);
+      background-size: 16px 16px;
+      background-position: 0 0,0 8px,8px -8px,-8px 0px;
+    }
+    #likeBtn.liked .like-icon { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; color: #e11d48; }
+    #bmBtn.bookmarked .bm-icon { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; color: #2f81f7; }
+  </style>
+</head>
+<body class="bg-background font-body text-on-surface antialiased">
+
+  <!-- Nav -->
+  <nav class="fixed top-0 w-full z-50 bg-background/90 backdrop-blur-xl border-b border-outline-variant">
+    <div class="max-w-screen-2xl mx-auto flex items-center justify-between px-6 h-14">
+      <div class="flex items-center gap-8">
+        <a href="main.html" class="text-xl font-bold text-primary tracking-tighter font-headline hover:opacity-80 transition-opacity">PixelHub</a>
+        <a href="freegallery.html" class="flex items-center gap-1.5 text-sm text-on-surface-variant hover:text-on-surface transition-colors">
+          <span class="material-symbols-outlined text-sm">arrow_back</span>
+          Free Gallery
+        </a>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="p-2 hover:bg-surface-container-low rounded-lg transition-all"><span class="material-symbols-outlined text-on-surface-variant">notifications</span></button>
+        <button class="p-2 hover:bg-surface-container-low rounded-lg transition-all"><span class="material-symbols-outlined text-on-surface-variant">account_circle</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== ARTWORK VIEWER (full-width, immersive) ===== -->
+  <div class="pt-14">
+    <div class="checkerboard flex items-center justify-center min-h-[70vh] relative">
+      <!-- Pixel canvas display -->
+      <div class="relative">
+        <!-- Artwork -->
+        <div class="w-72 h-72 md:w-96 md:h-96 shadow-[0_0_80px_rgba(107,56,212,0.4)] overflow-hidden"
+             style="image-rendering:pixelated; background:linear-gradient(135deg,#1a0533,#2d1b69,#0f172a,#4c1d95,#1e1b4b);">
+          <div class="w-full h-full flex items-center justify-center text-9xl select-none">🌧️</div>
+        </div>
+        <!-- Zoom badge -->
+        <div class="absolute top-3 right-3 px-2.5 py-1 bg-black/60 text-white text-xs font-bold rounded-lg backdrop-blur-sm">64 × 64</div>
+      </div>
+
+      <!-- Zoom controls overlay -->
+      <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-black/60 backdrop-blur-sm rounded-xl px-3 py-1.5 border border-white/10">
+        <button class="w-7 h-7 flex items-center justify-center hover:text-primary transition-colors">
+          <span class="material-symbols-outlined text-sm">remove</span>
+        </button>
+        <span class="text-xs font-bold font-headline w-10 text-center text-white/70">100%</span>
+        <button class="w-7 h-7 flex items-center justify-center hover:text-primary transition-colors">
+          <span class="material-symbols-outlined text-sm">add</span>
+        </button>
+        <div class="w-px h-3 bg-white/20 mx-1"></div>
+        <button class="w-7 h-7 flex items-center justify-center hover:text-primary transition-colors" title="Fit">
+          <span class="material-symbols-outlined text-sm">fit_screen</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ACTION BAR ===== -->
+  <div class="bg-surface border-y border-outline-variant">
+    <div class="max-w-screen-xl mx-auto px-6 h-14 flex items-center justify-between">
+      <!-- Left: stats -->
+      <div class="flex items-center gap-1">
+        <button id="likeBtn" onclick="toggleLike()" class="flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-surface-container-low transition-all">
+          <span class="material-symbols-outlined like-icon text-on-surface-variant text-xl">favorite</span>
+          <span id="likeCount" class="text-sm font-bold font-headline text-on-surface-variant">12.4k</span>
+        </button>
+        <div class="flex items-center gap-2 px-4 py-2 text-on-surface-variant">
+          <span class="material-symbols-outlined text-xl">visibility</span>
+          <span class="text-sm font-bold font-headline">84.2k</span>
+        </div>
+        <div class="flex items-center gap-2 px-4 py-2 text-on-surface-variant">
+          <span class="material-symbols-outlined text-xl">chat_bubble</span>
+          <span class="text-sm font-bold font-headline">238</span>
+        </div>
+      </div>
+      <!-- Right: actions -->
+      <div class="flex items-center gap-1">
+        <button id="bmBtn" onclick="toggleBookmark()" class="p-2.5 rounded-xl hover:bg-surface-container-low transition-all">
+          <span class="material-symbols-outlined bm-icon text-on-surface-variant text-xl">bookmark</span>
+        </button>
+        <button class="p-2.5 rounded-xl hover:bg-surface-container-low transition-all">
+          <span class="material-symbols-outlined text-on-surface-variant text-xl">share</span>
+        </button>
+        <button class="p-2.5 rounded-xl hover:bg-surface-container-low transition-all">
+          <span class="material-symbols-outlined text-on-surface-variant text-xl">flag</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="bg-background text-on-surface">
+    <div class="max-w-screen-xl mx-auto px-6 pt-10 pb-20">
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-10">
+
+        <!-- Left: Info + Comments -->
+        <div class="space-y-8">
+
+          <!-- Title + Description -->
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-2.5 py-1 bg-surface-container text-on-surface-variant text-xs font-bold rounded-full uppercase tracking-wide">Free Gallery</span>
+              <span class="px-2.5 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full">Featured</span>
+            </div>
+            <h1 class="text-4xl font-bold font-headline tracking-tighter mb-2">Neon Rain</h1>
+            <div class="flex items-center gap-3 text-sm text-on-surface-variant mb-5">
+              <a href="profile.html" class="flex items-center gap-2 hover:text-primary transition-colors">
+                <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white font-bold text-xs">PW</div>
+                <span class="font-bold">@PixelWitch</span>
+              </a>
+              <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+              <span>2026.03.28</span>
+              <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+              <span>수정: 2026.04.01</span>
+            </div>
+            <p class="text-on-surface-variant leading-relaxed">
+              도시의 밤, 빗속에서 빛나는 네온사인들. 사이버펑크 감성의 64×64 픽셀아트 작품입니다.
+              제한된 팔레트(16색)로 빗줄기와 반사광 표현에 집중했어요.
+              영감: Blade Runner 2049, VA-11 Hall-A.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-4">
+              <span class="px-3 py-1.5 bg-surface-container-low text-on-surface-variant text-sm rounded-full hover:text-primary hover:border-primary border border-transparent cursor-pointer transition-all">#cyberpunk</span>
+              <span class="px-3 py-1.5 bg-surface-container-low text-on-surface-variant text-sm rounded-full hover:text-primary hover:border-primary border border-transparent cursor-pointer transition-all">#landscape</span>
+              <span class="px-3 py-1.5 bg-surface-container-low text-on-surface-variant text-sm rounded-full hover:text-primary hover:border-primary border border-transparent cursor-pointer transition-all">#night</span>
+              <span class="px-3 py-1.5 bg-surface-container-low text-on-surface-variant text-sm rounded-full hover:text-primary hover:border-primary border border-transparent cursor-pointer transition-all">#neon</span>
+              <span class="px-3 py-1.5 bg-surface-container-low text-on-surface-variant text-sm rounded-full hover:text-primary hover:border-primary border border-transparent cursor-pointer transition-all">#rain</span>
+              <span class="px-3 py-1.5 bg-surface-container-low text-on-surface-variant text-sm rounded-full hover:text-primary hover:border-primary border border-transparent cursor-pointer transition-all">#16color</span>
+            </div>
+          </div>
+
+          <!-- Artwork Specs + Palette -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-surface-container rounded-2xl border border-outline-variant p-5">
+              <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">작품 정보</h3>
+              <div class="space-y-2.5 text-sm">
+                <div class="flex justify-between">
+                  <span class="text-on-surface-variant">해상도</span><span class="font-bold">64 × 64 px</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-on-surface-variant">색상 수</span><span class="font-bold">16색</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-on-surface-variant">갤러리</span><span class="font-bold text-primary">자유 갤러리</span>
+                </div>
+              </div>
+            </div>
+            <div class="bg-surface-container rounded-2xl border border-outline-variant p-5">
+              <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3">사용 팔레트</h3>
+              <div class="flex flex-wrap gap-1.5">
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#1a0533;" title="#1a0533"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#2d1b69;" title="#2d1b69"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#4c1d95;" title="#4c1d95"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#7c3aed;" title="#7c3aed"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#06b6d4;" title="#06b6d4"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#0891b2;" title="#0891b2"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#ec4899;" title="#ec4899"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#f43f5e;" title="#f43f5e"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#fbbf24;" title="#fbbf24"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#0f172a;" title="#0f172a"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#334155;" title="#334155"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#64748b;" title="#64748b"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#94a3b8;" title="#94a3b8"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform" style="background:#e2e8f0;" title="#e2e8f0"></div>
+                <div class="w-6 h-6 rounded cursor-pointer hover:scale-125 transition-transform border border-outline-variant" style="background:#ffffff;" title="#ffffff"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comments -->
+          <div>
+            <h2 class="text-xl font-bold font-headline tracking-tight mb-6">댓글 <span class="text-on-surface-variant font-normal text-base ml-1">238</span></h2>
+            <!-- Write -->
+            <div class="flex gap-3 mb-8">
+              <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white font-bold font-headline text-sm flex-shrink-0">나</div>
+              <div class="flex-1">
+                <textarea placeholder="댓글을 남겨보세요..." rows="2"
+                  class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm text-on-surface placeholder:text-on-surface-variant resize-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all outline-none"></textarea>
+                <div class="flex justify-end mt-2">
+                  <button class="px-5 py-2 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all">등록</button>
+                </div>
+              </div>
+            </div>
+            <!-- Comment list -->
+            <div class="space-y-6">
+              <div class="flex gap-3">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">G</div>
+                <div class="flex-1">
+                  <div class="flex items-baseline gap-2 mb-1">
+                    <span class="font-bold text-sm">@GridMaster</span>
+                    <span class="text-xs text-on-surface-variant">3일 전</span>
+                  </div>
+                  <p class="text-sm text-on-surface-variant leading-relaxed">진짜 대박이다... 네온 반사광 표현이 너무 자연스러워요. 팔레트 16색으로 이걸 어떻게 ㅠㅠ</p>
+                  <div class="flex items-center gap-3 mt-2">
+                    <button class="flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors">
+                      <span class="material-symbols-outlined text-sm">favorite</span> 24
+                    </button>
+                    <button class="text-xs text-on-surface-variant hover:text-primary transition-colors">답글</button>
+                  </div>
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">P</div>
+                <div class="flex-1">
+                  <div class="flex items-baseline gap-2 mb-1">
+                    <span class="font-bold text-sm">@PixelWitch</span>
+                    <span class="text-xs text-on-surface-variant">5일 전</span>
+                  </div>
+                  <p class="text-sm text-on-surface-variant leading-relaxed">블레이드러너 느낌 물씬~! 색상 팔레트 공유해주실 수 있나요?</p>
+                  <div class="flex items-center gap-3 mt-2">
+                    <button class="flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors">
+                      <span class="material-symbols-outlined text-sm">favorite</span> 18
+                    </button>
+                    <button class="text-xs text-on-surface-variant hover:text-primary transition-colors">답글</button>
+                  </div>
+                  <div class="mt-4 ml-4 pl-4 border-l-2 border-outline-variant/50 flex gap-3">
+                    <div class="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-indigo-400 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">PW</div>
+                    <div>
+                      <div class="flex items-baseline gap-2 mb-1">
+                        <span class="font-bold text-sm text-primary">@PixelWitch</span>
+                        <span class="text-xs text-on-surface-variant">4일 전</span>
+                        <span class="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-bold">작가</span>
+                      </div>
+                      <p class="text-sm text-on-surface-variant leading-relaxed">Lospec에서 "Neon Sunset 16" 팔레트 사용했어요! 링크 달아드릴게요 :)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="w-full mt-6 py-3 border border-outline-variant text-on-surface-variant rounded-xl text-sm font-bold hover:bg-surface-container-low transition-all">
+              댓글 더 보기 (235개 남음)
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Slim Artist Sidebar -->
+        <aside class="space-y-5">
+          <div class="bg-surface-container rounded-2xl border border-outline-variant p-5">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white font-bold font-headline text-lg">PW</div>
+              <div>
+                <a href="profile.html" class="font-bold hover:text-primary transition-colors font-headline">@PixelWitch</a>
+                <div class="text-xs text-on-surface-variant">팔로워 4,821명</div>
+              </div>
+            </div>
+            <p class="text-xs text-on-surface-variant leading-relaxed mb-4">사이버펑크 & 판타지 픽셀아트 전문. 5년차.</p>
+            <div class="flex gap-2">
+              <button class="flex-1 py-2 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all">팔로우</button>
+              <a href="profile.html" class="flex-1 py-2 border border-outline-variant text-on-surface rounded-xl font-bold text-sm text-center hover:bg-surface-container-low transition-all">프로필</a>
+            </div>
+          </div>
+
+          <!-- Other works -->
+          <div class="bg-surface-container rounded-2xl border border-outline-variant p-5">
+            <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3">같은 작가</h3>
+            <div class="grid grid-cols-3 gap-1.5">
+              <div class="aspect-square rounded-lg checkerboard flex items-center justify-center text-xl cursor-pointer hover:opacity-70 transition-opacity">🏰</div>
+              <div class="aspect-square rounded-lg checkerboard flex items-center justify-center text-xl cursor-pointer hover:opacity-70 transition-opacity">🔮</div>
+              <div class="aspect-square rounded-lg checkerboard flex items-center justify-center text-xl cursor-pointer hover:opacity-70 transition-opacity">🌙</div>
+              <div class="aspect-square rounded-lg checkerboard flex items-center justify-center text-xl cursor-pointer hover:opacity-70 transition-opacity">⚡</div>
+              <div class="aspect-square rounded-lg checkerboard flex items-center justify-center text-xl cursor-pointer hover:opacity-70 transition-opacity">🗡️</div>
+              <div class="aspect-square rounded-lg bg-surface-container-low flex items-center justify-center cursor-pointer hover:bg-surface-container transition-colors">
+                <span class="text-xs font-bold text-on-surface-variant">+123</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Related -->
+          <div class="bg-surface-container rounded-2xl border border-outline-variant p-5">
+            <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3">비슷한 작품</h3>
+            <div class="space-y-3">
+              <div class="flex gap-3 cursor-pointer group">
+                <div class="w-12 h-12 rounded-lg checkerboard flex-shrink-0 flex items-center justify-center text-lg">🌆</div>
+                <div class="min-w-0">
+                  <div class="font-bold text-sm group-hover:text-primary transition-colors truncate">Cyber City 01</div>
+                  <div class="text-xs text-on-surface-variant">@NeonDusk · ♥ 3.2k</div>
+                </div>
+              </div>
+              <div class="flex gap-3 cursor-pointer group">
+                <div class="w-12 h-12 rounded-lg checkerboard flex-shrink-0 flex items-center justify-center text-lg">🌃</div>
+                <div class="min-w-0">
+                  <div class="font-bold text-sm group-hover:text-primary transition-colors truncate">Midnight Street</div>
+                  <div class="text-xs text-on-surface-variant">@GlitchArtist · ♥ 1.8k</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleLike() {
+      const btn = document.getElementById('likeBtn');
+      const count = document.getElementById('likeCount');
+      btn.classList.toggle('liked');
+      count.textContent = btn.classList.contains('liked') ? '12.5k' : '12.4k';
+    }
+    function toggleBookmark() {
+      document.getElementById('bmBtn').classList.toggle('bookmarked');
+    }
+  </script>
+</body>
+</html>

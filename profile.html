@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>PixelWitch — Profile | PixelHub</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "background": "#0d1117", "surface": "#161b22",
+            "surface-container-low": "#1c2128", "surface-container": "#21262d",
+            "surface-container-high": "#292f38", "surface-container-highest": "#30363d",
+            "on-surface": "#e6edf3", "on-surface-variant": "#7d8590",
+            "primary": "#2f81f7", "on-primary": "#ffffff",
+            "accent": "#f0883e",
+            "outline": "#30363d", "outline-variant": "#21262d",
+            "error": "#f85149",
+          },
+          fontFamily: { "headline": ["Space Grotesk"], "body": ["Manrope"] },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .checkerboard {
+      background-color: #1c2128;
+      background-image: linear-gradient(45deg,#21262d 25%,transparent 25%),linear-gradient(-45deg,#21262d 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#21262d 75%),linear-gradient(-45deg,transparent 75%,#21262d 75%);
+      background-size: 8px 8px;
+      background-position: 0 0,0 4px,4px -4px,-4px 0px;
+    }
+    .tab-btn.active { color: #2f81f7; border-bottom-color: #2f81f7; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    /* Pixiv-style dense grid */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 6px;
+    }
+    @media (min-width: 768px) {
+      .works-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+    }
+    .work-item { aspect-ratio: 1; position: relative; overflow: hidden; cursor: pointer; }
+    .work-item .overlay { opacity: 0; transition: opacity 0.2s; background: rgba(0,0,0,0.55); }
+    .work-item:hover .overlay { opacity: 1; }
+  </style>
+</head>
+<body class="bg-background font-body text-on-surface antialiased">
+
+  <!-- Nav -->
+  <nav class="fixed top-0 w-full z-50 bg-surface/95 backdrop-blur-xl border-b border-outline-variant">
+    <div class="max-w-screen-2xl mx-auto flex items-center justify-between px-6 h-16">
+      <div class="flex items-center gap-8">
+        <a href="main.html" class="text-2xl font-bold text-primary tracking-tighter font-headline hover:opacity-80 transition-opacity">PixelHub</a>
+        <div class="hidden md:flex items-center gap-6">
+          <a class="text-on-surface-variant hover:text-primary transition-colors font-headline" href="freegallery.html">Gallery</a>
+          <a class="text-on-surface-variant hover:text-primary transition-colors font-headline" href="asset-store.html">Store</a>
+          <a class="text-on-surface-variant hover:text-primary transition-colors font-headline" href="editor.html">Editor</a>
+          <a class="text-on-surface-variant hover:text-primary transition-colors font-headline" href="commission.html">Commission</a>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button class="p-2 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-on-surface-variant">notifications</span></button>
+        <button class="p-2 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-on-surface-variant">account_circle</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-16 pb-20">
+
+    <!-- ===== PROFILE HEADER (Pixiv style) ===== -->
+    <!-- Cover -->
+    <div class="relative h-48 bg-gradient-to-r from-primary/80 via-primary to-indigo-400 overflow-hidden">
+      <div class="absolute inset-0 opacity-20" style="background-image:repeating-linear-gradient(0deg,transparent,transparent 20px,rgba(255,255,255,0.2) 20px,rgba(255,255,255,0.2) 21px),repeating-linear-gradient(90deg,transparent,transparent 20px,rgba(255,255,255,0.2) 20px,rgba(255,255,255,0.2) 21px);"></div>
+      <div class="absolute right-16 top-6 text-7xl opacity-15 select-none">🔮</div>
+      <div class="absolute right-40 bottom-3 text-4xl opacity-10 select-none">🌙</div>
+    </div>
+
+    <!-- Profile Info Bar -->
+    <div class="bg-surface border-b border-outline-variant">
+      <div class="max-w-screen-2xl mx-auto px-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-8 pb-4 pt-2">
+          <!-- Left: avatar + info -->
+          <div class="flex items-end gap-4">
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center text-white font-bold font-headline text-2xl border-4 border-background shadow-xl flex-shrink-0">PW</div>
+            <div class="pb-1">
+              <div class="flex items-center gap-2 mb-0.5 flex-wrap">
+                <h1 class="text-xl font-bold font-headline tracking-tight">PixelWitch</h1>
+                <span class="px-2 py-0.5 bg-primary/10 text-primary text-xs font-bold rounded-full">Master</span>
+                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">커미션 Open</span>
+              </div>
+              <p class="text-on-surface-variant text-xs">@pixelwitch · 가입 2023.08 · Seoul, Korea</p>
+            </div>
+          </div>
+          <!-- Right: actions -->
+          <div class="flex gap-2 sm:mb-1">
+            <button id="followBtn" onclick="toggleFollow()" class="flex items-center gap-1.5 px-5 py-2 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all">
+              <span class="material-symbols-outlined text-base">person_add</span>팔로우
+            </button>
+            <button class="p-2 border border-outline-variant rounded-xl hover:bg-surface-container-low transition-all">
+              <span class="material-symbols-outlined text-on-surface-variant text-base">chat</span>
+            </button>
+            <button class="p-2 border border-outline-variant rounded-xl hover:bg-surface-container-low transition-all">
+              <span class="material-symbols-outlined text-on-surface-variant text-base">more_horiz</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bio + links -->
+        <div class="pb-4 max-w-2xl">
+          <p class="text-on-surface-variant text-sm leading-relaxed">
+            사이버펑크 & 판타지 픽셀아트 전문 🔮 5년차 RPG 아이템·UI 일러스트레이터
+            <a href="commission-detail.html" class="text-primary hover:underline font-bold ml-1">커미션 보기 →</a>
+          </p>
+          <div class="flex flex-wrap items-center gap-4 mt-2 text-xs text-on-surface-variant">
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">link</span><a href="#" class="text-primary hover:underline">pixelwitch.art</a></span>
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">palette</span>Lospec: pixelwitch</span>
+          </div>
+        </div>
+
+        <!-- Stats row -->
+        <div class="flex flex-wrap gap-6 py-3 border-t border-outline-variant text-sm">
+          <div><span class="font-bold font-headline">128</span> <span class="text-on-surface-variant">작품</span></div>
+          <div><span class="font-bold font-headline">4,821</span> <span class="text-on-surface-variant">팔로워</span></div>
+          <div><span class="font-bold font-headline">312</span> <span class="text-on-surface-variant">팔로잉</span></div>
+          <div><span class="font-bold font-headline">92.4k</span> <span class="text-on-surface-variant">총 좋아요</span></div>
+          <div><span class="font-bold font-headline">23</span> <span class="text-on-surface-variant">에셋</span></div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex gap-0 border-t border-outline-variant">
+          <button onclick="switchTab('works')" id="tab-works" class="tab-btn active px-5 py-3 font-bold text-sm border-b-2 border-transparent font-headline">작품</button>
+          <button onclick="switchTab('assets')" id="tab-assets" class="tab-btn px-5 py-3 font-bold text-sm border-b-2 border-transparent text-on-surface-variant font-headline">에셋</button>
+          <button onclick="switchTab('liked')" id="tab-liked" class="tab-btn px-5 py-3 font-bold text-sm border-b-2 border-transparent text-on-surface-variant font-headline">좋아요</button>
+          <button onclick="switchTab('following')" id="tab-following" class="tab-btn px-5 py-3 font-bold text-sm border-b-2 border-transparent text-on-surface-variant font-headline">팔로잉</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB CONTENTS ===== -->
+    <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 pt-4">
+
+      <!-- Works: dense Pixiv-style grid -->
+      <div id="content-works" class="tab-content active">
+        <div class="works-grid">
+          <!-- 각 작품 카드: 정사각형, hover overlay -->
+          <div class="work-item checkerboard rounded-lg">
+            <div class="w-full h-full flex items-center justify-center text-5xl">🌧️</div>
+            <div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg">
+              <span class="font-bold text-sm font-headline text-center px-1">Neon Rain</span>
+              <span class="text-xs text-white/70 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1;">favorite</span>12.4k</span>
+            </div>
+            <div class="absolute top-1.5 left-1.5 px-1.5 py-0.5 bg-primary text-white text-[10px] font-bold rounded">Featured</div>
+          </div>
+          <div class="work-item checkerboard rounded-lg">
+            <div class="w-full h-full flex items-center justify-center text-5xl">🏰</div>
+            <div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg">
+              <span class="font-bold text-sm font-headline">Dark Keep</span>
+              <span class="text-xs text-white/70 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1;">favorite</span>5.6k</span>
+            </div>
+          </div>
+          <div class="work-item checkerboard rounded-lg">
+            <div class="w-full h-full flex items-center justify-center text-5xl">🔮</div>
+            <div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg">
+              <span class="font-bold text-sm font-headline">Arcane Orb</span>
+              <span class="text-xs text-white/70 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1;">favorite</span>3.2k</span>
+            </div>
+          </div>
+          <div class="work-item checkerboard rounded-lg">
+            <div class="w-full h-full flex items-center justify-center text-5xl">🌙</div>
+            <div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg">
+              <span class="font-bold text-sm font-headline">Moonlit Valley</span>
+              <span class="text-xs text-white/70 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1;">favorite</span>7.8k</span>
+            </div>
+          </div>
+          <div class="work-item checkerboard rounded-lg">
+            <div class="w-full h-full flex items-center justify-center text-5xl">⚡</div>
+            <div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg">
+              <span class="font-bold text-sm font-headline">Thunder Strike</span>
+              <span class="text-xs text-white/70 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1;">favorite</span>2.1k</span>
+            </div>
+          </div>
+          <div class="work-item checkerboard rounded-lg">
+            <div class="w-full h-full flex items-center justify-center text-5xl">🗡️</div>
+            <div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg">
+              <span class="font-bold text-sm font-headline">Shadow Blade</span>
+              <span class="text-xs text-white/70 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1;">favorite</span>4.4k</span>
+            </div>
+          </div>
+          <div class="work-item checkerboard rounded-lg">
+            <div class="w-full h-full flex items-center justify-center text-5xl">🧪</div>
+            <div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg">
+              <span class="font-bold text-sm font-headline">Potion Lab</span>
+              <span class="text-xs text-white/70 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1;">favorite</span>1.9k</span>
+            </div>
+          </div>
+          <div class="work-item checkerboard rounded-lg">
+            <div class="w-full h-full flex items-center justify-center text-5xl">🌿</div>
+            <div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg">
+              <span class="font-bold text-sm font-headline">Forest Shrine</span>
+              <span class="text-xs text-white/70 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1;">favorite</span>6.3k</span>
+            </div>
+          </div>
+          <div class="work-item checkerboard rounded-lg">
+            <div class="w-full h-full flex items-center justify-center text-5xl">🏔️</div>
+            <div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg">
+              <span class="font-bold text-sm font-headline">Snow Peak</span>
+              <span class="text-xs text-white/70 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1;">favorite</span>3.7k</span>
+            </div>
+          </div>
+          <div class="work-item checkerboard rounded-lg">
+            <div class="w-full h-full flex items-center justify-center text-5xl">🌸</div>
+            <div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg">
+              <span class="font-bold text-sm font-headline">Sakura Town</span>
+              <span class="text-xs text-white/70 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1;">favorite</span>8.9k</span>
+            </div>
+          </div>
+          <div class="work-item checkerboard rounded-lg">
+            <div class="w-full h-full flex items-center justify-center text-5xl">🐉</div>
+            <div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg">
+              <span class="font-bold text-sm font-headline">Dragon Lair</span>
+              <span class="text-xs text-white/70 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1;">favorite</span>11.2k</span>
+            </div>
+          </div>
+          <div class="work-item checkerboard rounded-lg">
+            <div class="w-full h-full flex items-center justify-center text-5xl">🌊</div>
+            <div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg">
+              <span class="font-bold text-sm font-headline">Deep Sea</span>
+              <span class="text-xs text-white/70 flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1;">favorite</span>2.8k</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center mt-8">
+          <button class="flex items-center gap-2 px-8 py-3 border-2 border-primary text-primary rounded-xl font-bold hover:bg-primary hover:text-white transition-all active:scale-95 font-headline text-sm">
+            <span class="material-symbols-outlined text-sm">expand_more</span>더 보기
+          </button>
+        </div>
+      </div>
+
+      <!-- Assets Tab -->
+      <div id="content-assets" class="tab-content">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 mt-2">
+          <div class="bg-surface-container rounded-xl border border-outline-variant overflow-hidden hover:shadow-md transition-all cursor-pointer group">
+            <div class="aspect-square checkerboard flex items-center justify-center text-4xl group-hover:opacity-80 transition-opacity">⚗️</div>
+            <div class="p-3"><div class="font-bold text-sm">Potion Icons</div><div class="flex justify-between mt-1"><span class="text-xs text-on-surface-variant">4.7 ★</span><span class="text-sm font-bold text-emerald-400">Free</span></div></div>
+          </div>
+          <div class="bg-surface-container rounded-xl border border-outline-variant overflow-hidden hover:shadow-md transition-all cursor-pointer group">
+            <div class="aspect-square checkerboard flex items-center justify-center text-4xl group-hover:opacity-80 transition-opacity">📜</div>
+            <div class="p-3"><div class="font-bold text-sm">RPG UI Kit</div><div class="flex justify-between mt-1"><span class="text-xs text-on-surface-variant">4.9 ★</span><span class="text-sm font-bold text-primary">₩5,900</span></div></div>
+          </div>
+          <div class="bg-surface-container rounded-xl border border-outline-variant overflow-hidden hover:shadow-md transition-all cursor-pointer group">
+            <div class="aspect-square checkerboard flex items-center justify-center text-4xl group-hover:opacity-80 transition-opacity">💎</div>
+            <div class="p-3"><div class="font-bold text-sm">Gem & Currency</div><div class="flex justify-between mt-1"><span class="text-xs text-on-surface-variant">4.8 ★</span><span class="text-sm font-bold text-emerald-400">Free</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Liked Tab -->
+      <div id="content-liked" class="tab-content">
+        <div class="works-grid mt-2">
+          <div class="work-item checkerboard rounded-lg"><div class="w-full h-full flex items-center justify-center text-5xl">🌆</div><div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg"><span class="font-bold text-sm font-headline">Cyber City</span><span class="text-xs text-white/70">@NeonDusk</span></div></div>
+          <div class="work-item checkerboard rounded-lg"><div class="w-full h-full flex items-center justify-center text-5xl">👾</div><div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg"><span class="font-bold text-sm font-headline">Space Invader</span><span class="text-xs text-white/70">@RetroBytes</span></div></div>
+          <div class="work-item checkerboard rounded-lg"><div class="w-full h-full flex items-center justify-center text-5xl">🏖️</div><div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg"><span class="font-bold text-sm font-headline">Summer Chill</span><span class="text-xs text-white/70">@LoFiSprite</span></div></div>
+          <div class="work-item checkerboard rounded-lg"><div class="w-full h-full flex items-center justify-center text-5xl">🤖</div><div class="overlay absolute inset-0 flex flex-col items-center justify-center gap-0.5 text-white rounded-lg"><span class="font-bold text-sm font-headline">Mech Runner</span><span class="text-xs text-white/70">@CyberCortex</span></div></div>
+        </div>
+      </div>
+
+      <!-- Following Tab -->
+      <div id="content-following" class="tab-content">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 mt-2">
+          <div class="bg-surface-container rounded-xl border border-outline-variant p-4 text-center hover:shadow-md transition-all cursor-pointer">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold font-headline text-xl mx-auto mb-2">ND</div>
+            <div class="font-bold text-sm">NeonDusk</div>
+            <div class="text-xs text-on-surface-variant mt-0.5 mb-2">팔로워 3.2k</div>
+            <button class="px-4 py-1 bg-surface-container-low border border-outline-variant text-on-surface-variant text-xs font-bold rounded-full hover:bg-primary hover:text-white hover:border-primary transition-all">팔로잉</button>
+          </div>
+          <div class="bg-surface-container rounded-xl border border-outline-variant p-4 text-center hover:shadow-md transition-all cursor-pointer">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white font-bold font-headline text-xl mx-auto mb-2">CC</div>
+            <div class="font-bold text-sm">CyberCortex</div>
+            <div class="text-xs text-on-surface-variant mt-0.5 mb-2">팔로워 1.8k</div>
+            <button class="px-4 py-1 bg-surface-container-low border border-outline-variant text-on-surface-variant text-xs font-bold rounded-full hover:bg-primary hover:text-white hover:border-primary transition-all">팔로잉</button>
+          </div>
+          <div class="bg-surface-container rounded-xl border border-outline-variant p-4 text-center hover:shadow-md transition-all cursor-pointer">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-indigo-400 flex items-center justify-center text-white font-bold font-headline text-xl mx-auto mb-2">SK</div>
+            <div class="font-bold text-sm">SpriteKnight</div>
+            <div class="text-xs text-on-surface-variant mt-0.5 mb-2">팔로워 4.5k</div>
+            <button class="px-4 py-1 bg-surface-container-low border border-outline-variant text-on-surface-variant text-xs font-bold rounded-full hover:bg-primary hover:text-white hover:border-primary transition-all">팔로잉</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        b.classList.add('text-on-surface-variant');
+      });
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      document.getElementById('tab-' + tab).classList.remove('text-on-surface-variant');
+      document.getElementById('content-' + tab).classList.add('active');
+    }
+
+    function toggleFollow() {
+      const btn = document.getElementById('followBtn');
+      const following = btn.textContent.includes('팔로잉');
+      if (following) {
+        btn.innerHTML = '<span class="material-symbols-outlined text-base">person_add</span>팔로우';
+        btn.className = 'flex items-center gap-1.5 px-5 py-2 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all';
+      } else {
+        btn.innerHTML = '<span class="material-symbols-outlined text-base">person_check</span>팔로잉';
+        btn.className = 'flex items-center gap-1.5 px-5 py-2 bg-surface-container-low border border-outline-variant text-on-surface rounded-xl font-bold text-sm hover:bg-surface-container active:scale-95 transition-all';
+      }
+    }
+  </script>
+</body>
+</html>
