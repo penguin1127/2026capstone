@@ -175,8 +175,8 @@ export default function AssetDetailPage() {
             </section>
           </div>
 
-          {/* 사이드바 */}
-          <div className="w-64 shrink-0 space-y-4">
+          {/* 사이드바 — 상단 구매 패널(w-80)과 너비 통일 */}
+          <div className="w-80 shrink-0 space-y-4">
             <div className="rounded-2xl border p-4" style={{ background: '#161b22', borderColor: '#30363d' }}>
               <p className="font-bold mb-3">라이선스</p>
               {[['상업적 이용', true], ['수정 가능', true], ['재배포', false], ['출처 표기 필요', true]].map(([label, ok]) => (

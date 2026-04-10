@@ -8,6 +8,7 @@ import AssetStorePage from './pages/AssetStorePage'
 import AssetDetailPage from './pages/AssetDetailPage'
 import EditorPage from './pages/EditorPage'
 import CommissionPage from './pages/CommissionPage'
+import CommissionDetailPage from './pages/CommissionDetailPage'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
 import MyPage from './pages/MyPage'
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/assets" element={<AssetStorePage />} />
         <Route path="/assets/:id" element={<AssetDetailPage />} />
         <Route path="/commission" element={<CommissionPage />} />
+        <Route path="/commission/:id" element={<CommissionDetailPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/profile/:username" element={<ProfilePage />} />
       </Route>
