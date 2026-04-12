@@ -2,6 +2,14 @@
 @source "../index.html";
 @source ".";
 
+/* 메이플스토리 폰트 */
+@font-face {
+  font-family: 'MaplestoryOTFBold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/MaplestoryOTFBold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @theme {
   --color-background: #0d1117;
   --color-surface: #161b22;
@@ -31,7 +39,7 @@
 body {
   background-color: #0d1117;
   color: #e6edf3;
-  font-family: 'Galmuri11', sans-serif;
+  font-family: var(--site-font, 'Pretendard Variable', 'Pretendard', sans-serif);
 }
 
 .material-symbols-outlined {

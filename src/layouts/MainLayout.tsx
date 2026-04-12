@@ -5,7 +5,7 @@ export default function MainLayout() {
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg-base)' }}>
       <Navbar />
-      <main className="pt-14">
+      <main className="pt-20">
         <Outlet />
       </main>
     </div>

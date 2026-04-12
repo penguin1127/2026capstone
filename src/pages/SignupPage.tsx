@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { authApi } from '../api/authApi'
+import { useAuthStore } from '../store/authStore'
 
 function getPwStrength(pw: string) {
   let score = 0
@@ -22,6 +24,10 @@ export default function SignupPage() {
   const [confirm, setConfirm] = useState('')
   const [allTerms, setAllTerms] = useState(false)
   const [terms, setTerms] = useState([false, false, false])
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const { setTokens } = useAuthStore()
+  const navigate = useNavigate()
 
   const usernameValid = /^[a-z0-9_]{4,20}$/.test(username)
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -36,6 +42,25 @@ export default function SignupPage() {
     const next = terms.map((v, idx) => idx === i ? checked : v)
     setTerms(next)
     setAllTerms(next.every(v => v))
+  }
+
+  const canSubmit = usernameValid && emailValid && pwStrength >= 1 && confirmMatch && terms[0] && terms[1]
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!canSubmit) return
+    setError('')
+    setLoading(true)
+    try {
+      const res = await authApi.signup({ email, password, nickname: username })
+      const { accessToken, refreshToken } = res.data.data
+      setTokens(accessToken, refreshToken)
+      navigate('/')
+    } catch (err: any) {
+      setError(err.response?.data?.message ?? '회원가입에 실패했습니다.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -64,7 +89,7 @@ export default function SignupPage() {
           <h1 className="text-2xl font-bold mb-1">회원가입</h1>
           <p className="text-sm mb-8" style={{ color: '#7d8590' }}>무료로 시작하세요. 언제든 취소 가능해요.</p>
 
-          <form className="space-y-5" onSubmit={e => e.preventDefault()}>
+          <form className="space-y-5" onSubmit={handleSubmit}>
             {/* 사용자 이름 */}
             <div>
               <label className="block text-sm font-bold mb-1.5">
@@ -208,10 +233,14 @@ export default function SignupPage() {
               </div>
             </div>
 
-            <button type="submit"
-              className="w-full py-3.5 rounded-xl font-bold text-base hover:opacity-90 active:scale-[0.98] transition-all mt-2"
+            {error && (
+              <p className="text-sm px-1" style={{ color: '#f85149' }}>{error}</p>
+            )}
+
+            <button type="submit" disabled={!canSubmit || loading}
+              className="w-full py-3.5 rounded-xl font-bold text-base hover:opacity-90 active:scale-[0.98] transition-all mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ background: '#2f81f7', color: '#fff' }}>
-              회원가입
+              {loading ? '가입 중...' : '회원가입'}
             </button>
           </form>
 

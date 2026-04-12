@@ -1,8 +1,32 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { authApi } from '../api/authApi'
+import { useAuthStore } from '../store/authStore'
 
 export default function LoginPage() {
   const [showPw, setShowPw] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const { setTokens } = useAuthStore()
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    try {
+      const res = await authApi.login({ email, password })
+      const { accessToken, refreshToken } = res.data.data
+      setTokens(accessToken, refreshToken)
+      navigate('/')
+    } catch (err: any) {
+      setError(err.response?.data?.message ?? '로그인에 실패했습니다.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden"
@@ -30,13 +54,14 @@ export default function LoginPage() {
           <h1 className="text-2xl font-bold mb-1">로그인</h1>
           <p className="text-sm mb-8" style={{ color: '#7d8590' }}>계속하려면 로그인하세요.</p>
 
-          <form className="space-y-5" onSubmit={e => e.preventDefault()}>
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label className="block text-sm font-bold mb-1.5">이메일</label>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-lg"
                   style={{ color: '#7d8590' }}>mail</span>
                 <input type="email" placeholder="example@pixelhub.io"
+                  value={email} onChange={e => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-xl text-sm outline-none transition-all"
                   style={{ background: '#1c2128', border: '1px solid #30363d', color: '#e6edf3' }} />
               </div>
@@ -48,6 +73,7 @@ export default function LoginPage() {
                 <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-lg"
                   style={{ color: '#7d8590' }}>lock</span>
                 <input type={showPw ? 'text' : 'password'} placeholder="비밀번호 입력"
+                  value={password} onChange={e => setPassword(e.target.value)}
                   className="w-full pl-10 pr-12 py-3 rounded-xl text-sm outline-none transition-all"
                   style={{ background: '#1c2128', border: '1px solid #30363d', color: '#e6edf3' }} />
                 <button type="button" onClick={() => setShowPw(v => !v)}
@@ -60,6 +86,10 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {error && (
+              <p className="text-sm px-1" style={{ color: '#f85149' }}>{error}</p>
+            )}
+
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" className="w-4 h-4 accent-[#2f81f7]" />
@@ -68,10 +98,10 @@ export default function LoginPage() {
               <a href="#" className="text-sm font-bold hover:underline" style={{ color: '#2f81f7' }}>비밀번호 찾기</a>
             </div>
 
-            <button type="submit"
-              className="w-full py-3.5 rounded-xl font-bold text-base hover:opacity-90 active:scale-[0.98] transition-all"
+            <button type="submit" disabled={loading}
+              className="w-full py-3.5 rounded-xl font-bold text-base hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
               style={{ background: '#2f81f7', color: '#fff' }}>
-              로그인
+              {loading ? '로그인 중...' : '로그인'}
             </button>
           </form>
 
